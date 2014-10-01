@@ -27,9 +27,8 @@ class Application extends Container
 	 * Application constructor.
 	 *
 	 * @param object $loader The autoloader instance.
-	 * @param array $config Configuration values.
 	 */
-	public function __construct($loader, array $config = [])
+	public function __construct($loader)
 	{
 		# Register start time
 		$this->startTime = microtime(true);
@@ -50,7 +49,7 @@ class Application extends Container
 		Utf8Bootup::filterRequestInputs();
 
 		# Register configuration data
-		$this->registerConfiguration($config);
+		$this->registerConfiguration(require __DIR__ . '/Config/default.php');
 
 		# Initialize some default values
 		$this['controller'] = null;
@@ -74,40 +73,37 @@ class Application extends Container
 	/**
 	 * Run the application.
 	 *
+	 * @todo need to review and rewrite all of this method
 	 */
 	public function run()
 	{
-		try
-		{
+	//	try
+	//	{
 			$this['request']->attributes->add(
 				$this['router']->matchRequest($this['request'])
 			);
 
 			$this['response'] = $this['router']->callController();
 
-			/*
-			if (null === $this['response'] || false === $this['response'])
-			{
-				$this['response'] = new Response();
-				$this['response']->headers->set('Content-Type', 'text/plain');
-				$this['response']->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
-				$this['response']->setContent('Unable to load controller ' . $this['request']->attributes->get('controller'));
-			}
-			*/
-		}
-		catch (ResourceNotFoundException $e)
-		{
-			$this['response'] = (new Controller($this))->serve404();
-		}
-		/*
-		catch (\Exception $e)
-		{
-			$this['response'] = new Response();
-			$this['response']->headers->set('Content-Type', 'text/plain');
-			$this['response']->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-			$this['response']->setContent($e->getMessage());
-		}
-		*/
+	//		if (null === $this['response'] || false === $this['response'])
+	//		{
+	//			$this['response'] = new Response();
+	//			$this['response']->headers->set('Content-Type', 'text/plain');
+	//			$this['response']->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
+	//			$this['response']->setContent('Unable to load controller ' . $this['request']->attributes->get('controller'));
+	//		}
+	//	}
+	//	catch (ResourceNotFoundException $e)
+	//	{
+	//		$this['response'] = (new Controller($this))->serve404();
+	//	}
+	//	catch (\Exception $e)
+	//	{
+	//		$this['response'] = new Response();
+	//		$this['response']->headers->set('Content-Type', 'text/plain');
+	//		$this['response']->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+	//		$this['response']->setContent($e->getMessage());
+	//	}
 
 		$this['response']->prepare($this['request']);
 
