@@ -24,6 +24,11 @@ class Breadcrumb
 		++$this->iNumItems;
 	}
 
+	public function hasItems()
+	{
+		return $this->iNumItems > 0;
+	}
+
 	public function getNumItems()
 	{
 		return $this->iNumItems;
