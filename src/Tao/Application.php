@@ -28,7 +28,7 @@ class Application extends Container
 	 *
 	 * @param object $loader The autoloader instance.
 	 */
-	public function __construct($loader)
+	public function __construct($loader, $appDir)
 	{
 		# Register start time
 		$this->startTime = microtime(true);
@@ -48,7 +48,12 @@ class Application extends Container
 		# Normalizes HTTP inputs to UTF-8 NFC
 		Utf8Bootup::filterRequestInputs();
 
-		# Register configuration data
+		# Setup configuration data
+		$config = [
+			'dir.tao' 	=> __DIR__,
+			'dir.app' 	=> $appDir
+		];
+
 		$this->registerConfiguration(require __DIR__ . '/Config/default.php');
 
 		# Initialize some default values
