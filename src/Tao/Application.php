@@ -1,5 +1,5 @@
 <?php
-namespace Tao\Core;
+namespace Tao;
 
 use Monolog\ErrorHandler;
 use Patchwork\Utf8\Bootup as Utf8Bootup;
