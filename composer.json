@@ -17,7 +17,7 @@
 	"support" : {
 		"issues" : "https://github.com/forxer/okatea/issues"
 	},
-	"minimum-stability" : "stable",
+	"minimum-stability" : "dev",
 	"require" : {
 		"doctrine/dbal" : "~2.4",
 		"filp/whoops" : "1.1",
