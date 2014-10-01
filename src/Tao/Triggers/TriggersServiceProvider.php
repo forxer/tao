@@ -1,0 +1,15 @@
+<?php
+namespace Tao\Triggers;
+
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
+
+class TriggersServiceProvider implements ServiceProviderInterface
+{
+	public function register(Container $app)
+	{
+		$app['triggers'] = function() {
+			return new Triggers();
+		};
+	}
+}
