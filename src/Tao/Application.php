@@ -26,9 +26,10 @@ class Application extends Container
 	/**
 	 * Application constructor.
 	 *
+	 * @param object $loader The autoloader instance.
 	 * @param array $config Configuration values.
 	 */
-	public function __construct(array $config = [])
+	public function __construct($loader, array $config = [])
 	{
 		# Register start time
 		$this->startTime = microtime(true);
