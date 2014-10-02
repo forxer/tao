@@ -27,8 +27,9 @@ class Application extends Container
 	 * Application constructor.
 	 *
 	 * @param object $loader The autoloader instance.
+	 * @param array $config The configuration of the application.
 	 */
-	public function __construct($loader, $appDir)
+	public function __construct($loader, array $config = [])
 	{
 		# Register start time
 		$this->startTime = microtime(true);
@@ -48,13 +49,8 @@ class Application extends Container
 		# Normalizes HTTP inputs to UTF-8 NFC
 		Utf8Bootup::filterRequestInputs();
 
-		# Setup configuration data
-		$config = [
-			'dir.tao' 	=> __DIR__,
-			'dir.app' 	=> $appDir
-		];
-
-		$this->registerConfiguration(require __DIR__ . '/Config/default.php');
+		# Register configuration data
+		$this->registerConfiguration($config);
 
 		# Initialize some default values
 		$this['controller'] = null;
