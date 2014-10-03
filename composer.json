@@ -35,7 +35,8 @@
 		"symfony/http-foundation" : "~2.5",
 		"symfony/routing" : "~2.5",
 		"symfony/templating" : "~2.5",
-		"symfony/yaml" : "~2.5"
+		"symfony/yaml" : "~2.5",
+		"zendframework/zend-escaper" : "~2.3"
 	},
 	"autoload" : {
 		"psr-4" : {

@@ -1,11 +1,15 @@
 <?php
-namespace Tao\Html;
+namespace Tao\Templating\Helpers;
 
-/**
- * Création d'éléments de formulaire HTML.
- */
-class FormElements
+use Symfony\Component\Templating\Helper\Helper;
+
+class FormElements extends Helper
 {
+	public function getName()
+	{
+		return 'form';
+	}
+
 	/**
 	 * Retourne un champ de formulaire de type select.
 	 *
@@ -19,7 +23,7 @@ class FormElements
 	 * @param string $sExtraHtml Du HTML en plus à mettre dans l'élément
 	 * @return string
 	 */
-	public static function select($mNameId, $aData, $mDefault = null, $sClass = null, $iTabindex = null, $bDisabled = false, $bMultiple = false, $sExtraHtml = null)
+	public function select($mNameId, $aData, $mDefault = null, $sClass = null, $iTabindex = null, $bDisabled = false, $bMultiple = false, $sExtraHtml = null)
 	{
 		self::getNameAndId($mNameId, $sName, $sId);
 
@@ -46,7 +50,7 @@ class FormElements
 	 * @param mixed $mDefault La valeur sélectionnée par défaut
 	 * @return string
 	 */
-	public static function selectOptions($aData, $mDefault)
+	public function selectOptions($aData, $mDefault)
 	{
 		$res = '';
 		$option = '<option value="%1$s"%3$s>%2$s</option>' . PHP_EOL;
@@ -88,7 +92,7 @@ class FormElements
 	 * @param string $sExtraHtml Du HTML en plus à mettre dans l'élément
 	 * @return string
 	 */
-	public static function radio($mNameId, $value, $checked = '', $sClass = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
+	public function radio($mNameId, $value, $checked = '', $sClass = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
 	{
 		self::getNameAndId($mNameId, $sName, $sId);
 
@@ -116,7 +120,7 @@ class FormElements
 	 * @param string $sExtraHtml Du HTML en plus à mettre dans l'élément
 	 * @return string
 	 */
-	public static function checkbox($mNameId, $value, $checked = '', $sClass = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
+	public function checkbox($mNameId, $value, $checked = '', $sClass = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
 	{
 		self::getNameAndId($mNameId, $sName, $sId);
 
@@ -146,7 +150,7 @@ class FormElements
 	 * @param string $sExtraHtml Du HTML en plus à mettre dans l'élément
 	 * @return string
 	 */
-	public static function text($mNameId, $size, $max = null, $sDefault = null, $sClass = null, $sPlaceholder = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
+	public function text($mNameId, $size, $max = null, $sDefault = null, $sClass = null, $sPlaceholder = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
 	{
 		self::getNameAndId($mNameId, $sName, $sId);
 
@@ -175,7 +179,7 @@ class FormElements
 	 * @param string $sExtraHtml Du HTML en plus à mettre dans l'élément
 	 * @return string
 	 */
-	public static function file($mNameId, $sDefault = null, $sClass = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
+	public function file($mNameId, $sDefault = null, $sClass = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
 	{
 		self::getNameAndId($mNameId, $sName, $sId);
 
@@ -204,7 +208,7 @@ class FormElements
 	 * @param string $sExtraHtml Du HTML en plus à mettre dans l'élément
 	 * @return string
 	 */
-	public static function password($mNameId, $size, $max = null, $sDefault = null, $sClass = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
+	public function password($mNameId, $size, $max = null, $sDefault = null, $sClass = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
 	{
 		self::getNameAndId($mNameId, $sName, $sId);
 
@@ -235,7 +239,7 @@ class FormElements
 	 * @param string $sExtraHtml Du HTML en plus à mettre dans l'élément
 	 * @return string
 	 */
-	public static function textarea($mNameId, $iCols = null, $iRows = null, $sDefault = null, $sClass = null, $sPlaceholder = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
+	public function textarea($mNameId, $iCols = null, $iRows = null, $sDefault = null, $sClass = null, $sPlaceholder = null, $iTabindex = null, $bDisabled = false, $sExtraHtml = null)
 	{
 		self::getNameAndId($mNameId, $sName, $sId);
 
@@ -262,7 +266,7 @@ class FormElements
 	 * @param string $value La valeur par de lélément
 	 * @return string
 	 */
-	public static function hidden($mNameId, $value)
+	public function hidden($mNameId, $value)
 	{
 		self::getNameAndId($mNameId, $sName, $sId);
 

@@ -1,5 +1,5 @@
 <?php
-namespace Tao\Html;
+namespace Tao\Templating\Helpers;
 
 
 /**

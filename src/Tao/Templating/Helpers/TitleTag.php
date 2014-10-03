@@ -1,8 +1,15 @@
 <?php
-namespace Tao\Html;
+namespace Tao\Templating\Helpers;
 
-class TitleTag
+use Symfony\Component\Templating\Helper\Helper;
+
+class TitleTag extends Helper
 {
+	public function getName()
+	{
+		return 'titleTag';
+	}
+
 	protected $aTitles = [];
 
 	/**
@@ -69,6 +76,11 @@ class TitleTag
 	 */
 	public function get($glue = '-')
 	{
-		return implode($glue, array_reverse($this->aTitles, true));
+		return implode($glue, $this->getAll());
+	}
+
+	public function __toString()
+	{
+		echo $this->get();
 	}
 }

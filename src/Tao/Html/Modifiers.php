@@ -51,6 +51,35 @@ class Modifiers
 		return '<p>' . $string . '</p>' . PHP_EOL;
 	}
 
+	public function pluralize($iNumber, $zero, $one, $more)
+	{
+		$iNumber = (integer)$iNumber;
+
+		if ($iNumber === 0) {
+			return $zero;
+		}
+		elseif ($iNumber === 1) {
+			return $one;
+		}
+		else {
+			return sprintf($more, $this->number($iNumber));
+		}
+	}
+
+	/**
+	 * Number format shortcut.
+	 *
+	 * @param float $number
+	 * @param integer $decimals
+	 * @param string $dec_point
+	 * @param string $thousands_sep
+	 * @return string
+	 */
+	public function number($number, $decimals = 0, $dec_point = ',', $thousands_sep = '&nbsp;' )
+	{
+		return number_format((float)$number, $decimals, $dec_point, $thousands_sep);
+	}
+
 	/**
 	 * Transform a string in slug regarding to Okatea configuration.
 	 *

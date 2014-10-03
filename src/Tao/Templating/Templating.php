@@ -1,8 +1,8 @@
 <?php
 namespace Tao\Templating;
 
+use Pagerfanta\Pagerfanta;
 use Pagerfanta\View\TwitterBootstrap3View;
-use Tao\Html\Escaper;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\Asset\PathPackage;
@@ -12,12 +12,18 @@ use Symfony\Component\Templating\Loader\FilesystemLoader;
 use Symfony\Component\Templating\PhpEngine;
 use Symfony\Component\Templating\TemplateNameParser;
 use Tao\Application;
+use Tao\Html\Escaper;
 use Tao\Html\Modifiers;
-use Pagerfanta\Pagerfanta;
+use Tao\Templating\Helpers\Breadcrumb;
+use Tao\Templating\Helpers\FormElements;
+use Tao\Templating\Helpers\TitleTag;
+use Zend\Escaper\Escaper;
 
 class Templating extends PhpEngine
 {
 	protected $app;
+
+	protected $escaper;
 
 	public function __construct(Application $app)
 	{
@@ -37,9 +43,13 @@ class Templating extends PhpEngine
 		$this->get('assets')->addPackage('assets', new PathPackage($app['assets_url']));
 		$this->get('assets')->addPackage('components', new PathPackage($app['components_url']));
 
-		$this->set(new FormElementsHelper());
+		$this->set(new TitleTag());
+		$this->set(new Breadcrumb());
+		$this->set(new FormElements());
 
-		$this->addEscapers();
+		$this->escaper = new Escaper('utf-8');
+
+		$this->addBuiltInEscapers();
 
 		$this->addGlobal('app', $app);
 	}
@@ -80,56 +90,6 @@ class Templating extends PhpEngine
 		return $response;
 	}
 
-	public function pluralize($iNumber, $zero, $one, $more)
-	{
-		$iNumber = (integer)$iNumber;
-
-		if ($iNumber === 0) {
-			return $zero;
-		}
-		elseif ($iNumber === 1) {
-			return $one;
-		}
-		else {
-			return sprintf($more, $this->number($iNumber));
-		}
-	}
-
-	/**
-	 * Number format shortcut.
-	 *
-	 * @param float $number
-	 * @param integer $decimals
-	 * @param string $dec_point
-	 * @param string $thousands_sep
-	 * @return string
-	 */
-	public function number($number, $decimals = 0, $dec_point = ',', $thousands_sep = '&nbsp;' )
-	{
-		return number_format((float)$number, $decimals, $dec_point, $thousands_sep);
-	}
-
-	/**
-	 * Truncate a string to a certain length if necessary,
-	 * optionally splitting in the middle of a word, and
-	 * appending the $etc string or inserting $etc into the middle.
-	 *
-	 * @param unknown $string
-	 * @param number $length
-	 * @param string $etc
-	 * @param string $bBreakWords
-	 * @param string $bMiddle
-	 */
-	public function truncate($string, $length = 70, $etc = '...', $bBreakWords = false, $bMiddle = false)
-	{
-		return Modifiers::truncate($string, $length, $etc, $bBreakWords, $bMiddle);
-	}
-
-	public function nlToP($string)
-	{
-		return Modifiers::nlToP($string);
-	}
-
 	/**
 	 * Retourne le HTML de la pagination.
 	 *
@@ -154,9 +114,32 @@ class Templating extends PhpEngine
 		);
 	}
 
-	public function escapeJs($string)
+	public function addBuiltInEscapers()
 	{
-		return $this->escape($string, 'js');
+		$this->setEscaper('html', [
+			$this->escaper,
+			'escapeHtml'
+		]);
+
+		$this->setEscaper('html_attr', [
+			$this->escaper,
+			'escapeHtmlAttr'
+		]);
+
+		$this->setEscaper('js', [
+			$this->escaper,
+			'escapeJs'
+		]);
+
+		$this->setEscaper('url', [
+			$this->escaper,
+			'escapeUrl'
+		]);
+
+		$this->setEscaper('css', [
+			$this->escaper,
+			'escapeCss'
+		]);
 	}
 
 	public function escapeHtmlAttr($string)
@@ -164,21 +147,18 @@ class Templating extends PhpEngine
 		return $this->escape($string, 'html_attr');
 	}
 
-	public function addEscapers()
+	public function escapeJs($string)
 	{
-		$this->setEscaper('html', [
-			'Tao\Html\Escaper',
-			'html'
-		]);
+		return $this->escape($string, 'js');
+	}
 
-		$this->setEscaper('html_attr', [
-			'Tao\Html\Escaper',
-			'attribute'
-		]);
+	public function escapeUrl($string)
+	{
+		return $this->escape($string, 'url');
+	}
 
-		$this->setEscaper('js', [
-			'Tao\Html\Escaper',
-			'js'
-		]);
+	public function escapeCss($string)
+	{
+		return $this->escape($string, 'css');
 	}
 }

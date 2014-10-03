@@ -1,8 +1,15 @@
 <?php
-namespace Tao\Html;
+namespace Tao\Templating\Helpers;
 
-class Breadcrumb
+use Symfony\Component\Templating\Helper\Helper;
+
+class Breadcrumb extends Helper
 {
+	public function getName()
+	{
+		return 'breadcrumb';
+	}
+
 	protected $aStack = [];
 
 	protected $iNumItems = 0;

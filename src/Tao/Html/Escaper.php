@@ -14,7 +14,6 @@ class Escaper
 	 */
 	public static function html($value)
 	{
-		return is_string($value) ? htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE) : $value;
 		return is_string($value) ? htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8', false) : $value;
 	}
 
@@ -26,7 +25,6 @@ class Escaper
 	 */
 	public static function attribute($value)
 	{
-		return is_string($value) ? htmlspecialchars($value, ENT_COMPAT | ENT_SUBSTITUTE) : $value;
 		return is_string($value) ? htmlspecialchars($value, ENT_COMPAT | ENT_SUBSTITUTE, 'UTF-8', false) : $value;
 	}
 
@@ -44,7 +42,7 @@ class Escaper
 			return $value;
 		}
 
-		$value = htmlspecialchars($value, ENT_NOQUOTES | ENT_SUBSTITUTE);
+		$value = htmlspecialchars($value, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8', false);
 		$value = str_replace("'", "\'", $value);
 		$value = str_replace('"', '\"', $value);
 
