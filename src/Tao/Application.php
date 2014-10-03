@@ -7,7 +7,6 @@ use Pimple\Container;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Tao\Database\DatabaseServiceProvider;
-use Tao\Html\HtmlServiceProvider;
 use Tao\Http\HttpServiceProvider;
 use Tao\Logger\LoggerServiceProvider;
 use Tao\Messages\MessagesServiceProvider;
@@ -170,7 +169,6 @@ class Application extends Container
 	protected function registerCoreServiceProvider()
 	{
 		$this->register(new DatabaseServiceProvider());
-		$this->register(new HtmlServiceProvider());
 		$this->register(new HttpServiceProvider());
 		$this->register(new LoggerServiceProvider());
 		$this->register(new MessagesServiceProvider());
