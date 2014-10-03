@@ -12,10 +12,10 @@ use Symfony\Component\Templating\Loader\FilesystemLoader;
 use Symfony\Component\Templating\PhpEngine;
 use Symfony\Component\Templating\TemplateNameParser;
 use Tao\Application;
-use Tao\Html\Escaper;
 use Tao\Html\Modifiers;
 use Tao\Templating\Helpers\Breadcrumb;
 use Tao\Templating\Helpers\FormElements;
+use Tao\Templating\Helpers\Modifier;
 use Tao\Templating\Helpers\TitleTag;
 use Zend\Escaper\Escaper;
 
@@ -43,9 +43,10 @@ class Templating extends PhpEngine
 		$this->get('assets')->addPackage('assets', new PathPackage($app['assets_url']));
 		$this->get('assets')->addPackage('components', new PathPackage($app['components_url']));
 
-		$this->set(new TitleTag());
 		$this->set(new Breadcrumb());
 		$this->set(new FormElements());
+		$this->set(new Modifier());
+		$this->set(new TitleTag());
 
 		$this->escaper = new Escaper('utf-8');
 
