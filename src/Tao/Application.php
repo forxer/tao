@@ -51,18 +51,12 @@ class Application extends Container
 		# Register configuration data
 		$this->registerConfiguration($config);
 
-		# Initialize some default values
-		$this['controller'] = null;
-		$this['action'] = null;
-		$this['response'] = null;
-
 		# Print errors in debug mode
 		if ($this['debug'])
 		{
 			$whoops = new WhoopsRun;
 			$whoops->pushHandler(new WhoopsHandler);
 			$whoops->register();
-
 		}
 		# otherwise log them
 		else {
@@ -83,31 +77,31 @@ class Application extends Container
 				$this['router']->matchRequest($this['request'])
 			);
 
-			$this['response'] = $this['router']->callController();
+			$response = $this['router']->callController();
 
-	//		if (null === $this['response'] || false === $this['response'])
+	//		if (null === $response || false === $response)
 	//		{
-	//			$this['response'] = new Response();
-	//			$this['response']->headers->set('Content-Type', 'text/plain');
-	//			$this['response']->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
-	//			$this['response']->setContent('Unable to load controller ' . $this['request']->attributes->get('controller'));
+	//			$response = new Response();
+	//			$response->headers->set('Content-Type', 'text/plain');
+	//			$response->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
+	//			$response->setContent('Unable to load controller ' . $this['request']->attributes->get('controller'));
 	//		}
 	//	}
 	//	catch (ResourceNotFoundException $e)
 	//	{
-	//		$this['response'] = (new Controller($this))->serve404();
+	//		$response = (new Controller($this))->serve404();
 	//	}
 	//	catch (\Exception $e)
 	//	{
-	//		$this['response'] = new Response();
-	//		$this['response']->headers->set('Content-Type', 'text/plain');
-	//		$this['response']->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-	//		$this['response']->setContent($e->getMessage());
+	//		$response = new Response();
+	//		$response->headers->set('Content-Type', 'text/plain');
+	//		$response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+	//		$response->setContent($e->getMessage());
 	//	}
 
-		$this['response']->prepare($this['request']);
+		$response->prepare($this['request']);
 
-		$this['response']->send();
+		$response->send();
 	}
 
 	/**

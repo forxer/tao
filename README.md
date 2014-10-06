@@ -1,4 +1,4 @@
-tao
+Tao
 ===
 
 _Tiny and lightweight PHP proto-framework based on famous libraries_

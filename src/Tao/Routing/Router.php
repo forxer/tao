@@ -117,8 +117,8 @@ class Router extends BaseRouter
 			throw new InvalidArgumentException(sprintf('Class "%s" does not exist.', $namespacedClass));
 		}
 
-		$this->app['controller'] = $class;
-		$this->app['action'] = $method;
+		$this->app['request']->attributes->set('controller_class', $class);
+		$this->app['request']->attributes->set('controller_method', $method);
 
 		return [
 			new $namespacedClass($this->app),
