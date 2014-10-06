@@ -13,11 +13,11 @@ use Tao\Messages\MessagesServiceProvider;
 use Tao\Routing\RouterServiceProvider;
 use Tao\Templating\TemplatingServiceProvider;
 use Tao\Triggers\TriggersServiceProvider;
+use Whoops\Run as WhoopsRun;
+use Whoops\Handler\PrettyPageHandler as WhoopsHandler;
 
 class Application extends Container
 {
-	const VERSION = '0.1-DEV';
-
 	protected $startTime;
 
 	protected static $models;
@@ -59,8 +59,8 @@ class Application extends Container
 		# Print errors in debug mode
 		if ($this['debug'])
 		{
-			$whoops = new \Whoops\Run;
-			$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+			$whoops = new WhoopsRun;
+			$whoops->pushHandler(new WhoopsHandler);
 			$whoops->register();
 
 		}
