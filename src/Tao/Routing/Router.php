@@ -28,7 +28,7 @@ class Router extends BaseRouter
 			),
 			'routes.yml',
 			array(
-				'cache_dir' => $app['dir.cache'],
+				'cache_dir' => $app['dir.cache'].'/router',
 				'debug' 	=> $app['debug']
 			),
 			(new RequestContext())->fromRequest($app['request'])
@@ -70,7 +70,7 @@ class Router extends BaseRouter
 
 			return false;
 		}
-		
+
 		if (is_array($controller) || (is_object($controller) && method_exists($controller, '__invoke'))) {
 			return $controller;
 		}
