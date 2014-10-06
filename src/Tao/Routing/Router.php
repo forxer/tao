@@ -28,7 +28,7 @@ class Router extends BaseRouter
 			),
 			'routes.yml',
 			array(
-				'cache_dir' => $app['dir.cache'].'/router',
+				'cache_dir' => $app['dir.cache'].'/Router',
 				'debug' 	=> $app['debug']
 			),
 			(new RequestContext())->fromRequest($app['request'])
