@@ -204,5 +204,8 @@ class Application extends Container
 		foreach ($values as $key => $value) {
 			$this[$key] = $value;
 		}
+
+		# Set the path to the Tao directory
+		$this['dir.tao'] = __DIR__;
 	}
 }
