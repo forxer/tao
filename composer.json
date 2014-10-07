@@ -17,12 +17,13 @@
 	"support" : {
 		"issues" : "https://github.com/forxer/okatea/issues"
 	},
-	"minimum-stability" : "dev",
+	"minimum-stability" : "stable",
 	"require" : {
 		"doctrine/dbal" : "~2.4",
 		"ezyang/htmlpurifier" : "~4.6",
 		"filp/whoops" : "1.1",
-		"fzaninotto/Faker" : "dev-master",
+		"fzaninotto/Faker" : "~1.4",
+		"guzzlehttp/guzzle" : "~4.2",
 		"imagine/imagine" : "~0.6",
 		"jdorn/sql-formatter" : "~1.2",
 		"monolog/monolog" : "~1.10",
@@ -39,6 +40,7 @@
 		"symfony/routing" : "~2.5",
 		"symfony/templating" : "~2.5",
 		"symfony/yaml" : "~2.5",
+		"swiftmailer/swiftmailer" : "~5.3",
 		"zendframework/zend-escaper" : "~2.3"
 	},
 	"autoload" : {
