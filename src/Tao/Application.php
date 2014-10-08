@@ -6,6 +6,7 @@ use Patchwork\Utf8\Bootup as Utf8Bootup;
 use Pimple\Container;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
+use Tao\Controller\Controller;
 use Tao\Database\DatabaseServiceProvider;
 use Tao\Http\HttpServiceProvider;
 use Tao\Logger\LoggerServiceProvider;
@@ -71,33 +72,33 @@ class Application extends Container
 	 */
 	public function run()
 	{
-	//	try
-	//	{
+		try
+		{
 			$this['request']->attributes->add(
 				$this['router']->matchRequest($this['request'])
 			);
 
 			$response = $this['router']->callController();
 
-	//		if (null === $response || false === $response)
-	//		{
-	//			$response = new Response();
-	//			$response->headers->set('Content-Type', 'text/plain');
-	//			$response->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
-	//			$response->setContent('Unable to load controller ' . $this['request']->attributes->get('controller'));
-	//		}
-	//	}
-	//	catch (ResourceNotFoundException $e)
-	//	{
-	//		$response = (new Controller($this))->serve404();
-	//	}
-	//	catch (\Exception $e)
-	//	{
-	//		$response = new Response();
-	//		$response->headers->set('Content-Type', 'text/plain');
-	//		$response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-	//		$response->setContent($e->getMessage());
-	//	}
+			if (null === $response || false === $response)
+			{
+				$response = new Response();
+				$response->headers->set('Content-Type', 'text/plain');
+				$response->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
+				$response->setContent('Unable to load controller ' . $this['request']->attributes->get('controller'));
+			}
+		}
+		catch (ResourceNotFoundException $e)
+		{
+			$response = (new Controller($this))->serve404();
+		}
+		catch (\Exception $e)
+		{
+			$response = new Response();
+			$response->headers->set('Content-Type', 'text/plain');
+			$response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+			$response->setContent($e->getMessage());
+		}
 
 		$response->prepare($this['request']);
 
