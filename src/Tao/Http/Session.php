@@ -6,9 +6,14 @@ use Symfony\Component\HttpFoundation\Session\Flash\AutoExpireFlashBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session as BaseSession;
 use Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface;
+use Tao\Application;
 
 class Session extends BaseSession
 {
+	protected $app;
+
+	protected $language;
+
 	/**
 	 * The namespace for the session variable and form inputs.
 	 *
@@ -29,8 +34,10 @@ class Session extends BaseSession
 	 * @param FlashBagInterface       $flashes    			A FlashBagInterface instance (defaults null for default FlashBag)
 	 * @param FlashBagInterface       $autoExpireFlashBag   A FlashBagInterface instance (defaults null for default FlashBag)
 	 */
-	public function __construct(SessionStorageInterface $storage = null, AttributeBagInterface $attributes = null, FlashBagInterface $flashes = null, FlashBagInterface $autoExpireFlashBag = null, $sTokenNamespace = 'csrf')
+	public function __construct(Application $app, SessionStorageInterface $storage = null, AttributeBagInterface $attributes = null, FlashBagInterface $flashes = null, FlashBagInterface $autoExpireFlashBag = null, $sTokenNamespace = 'csrf')
 	{
+		$this->app = $app;
+
 		parent::__construct($storage, $attributes, $flashes);
 
 		$autoExpireFlashBag = $autoExpireFlashBag ?: new AutoExpireFlashBag();
@@ -93,6 +100,39 @@ class Session extends BaseSession
 	public function getTokenInputField()
 	{
 		return '<input type="hidden" name="' . $this->sTokenNamespace . '" value="' . htmlspecialchars($this->getToken()) . '" />';
+	}
+
+	public function getLanguage()
+	{
+		if (null === $this->language) {
+			$this->setLanguage();
+		}
+
+		return $this->language;
+	}
+
+	public function setLanguage($sLanguage = null)
+	{
+		if (null === $sLanguage) {
+			$sLanguage = $this->getPreferedLanguage();
+		}
+
+		if (!array_key_exists($sLanguage, $this->app['accepted_locales'])) {
+			$sLanguage = $this->application->config['fallback_locale'];
+		}
+
+		$this->set('language', $sLanguage);
+
+		$this->language = $sLanguage;
+	}
+
+	protected function getPreferedLanguage()
+	{
+		if ($this->has('language')) {
+			return $this->get('language');
+		}
+
+		return $this->app['request']->getPreferredLanguage();
 	}
 
 	/**

@@ -14,6 +14,7 @@ class HttpServiceProvider implements ServiceProviderInterface
 
 		$app['session'] = function() use ($app) {
 			return new $app['class.session'](
+				$app,
 				new $app['class.session.storage'](
 					[
 						'cookie_lifetime' 	=> 0,

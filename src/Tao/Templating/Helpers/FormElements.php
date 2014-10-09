@@ -5,11 +5,6 @@ use Symfony\Component\Templating\Helper\Helper;
 
 class FormElements extends Helper
 {
-	public function getName()
-	{
-		return 'form';
-	}
-
 	/**
 	 * Retourne un champ de formulaire de type select.
 	 *
@@ -295,5 +290,15 @@ class FormElements extends Helper
 		else {
 			$sName = $sId = $mNameId;
 		}
+	}
+
+	/**
+	 * Returns the canonical name of this helper.
+	 *
+	 * @return string The canonical name
+	 */
+	public function getName()
+	{
+		return 'form';
 	}
 }

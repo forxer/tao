@@ -18,6 +18,7 @@ use Tao\Templating\Helpers\FormElements;
 use Tao\Templating\Helpers\Modifier;
 use Tao\Templating\Helpers\TitleTag;
 use Zend\Escaper\Escaper;
+use Tao\Templating\Helpers\Translator;
 
 class Templating extends PhpEngine
 {
@@ -47,6 +48,7 @@ class Templating extends PhpEngine
 		$this->set(new FormElements());
 		$this->set(new Modifier());
 		$this->set(new TitleTag());
+		$this->set(new Translator($app['translator']));
 
 		$this->escaper = new Escaper('utf-8');
 

@@ -5,11 +5,6 @@ use Symfony\Component\Templating\Helper\Helper;
 
 class Breadcrumb extends Helper
 {
-	public function getName()
-	{
-		return 'breadcrumb';
-	}
-
 	protected $aStack = [];
 
 	protected $iNumItems = 0;
@@ -65,5 +60,15 @@ class Breadcrumb extends Helper
 	public function getNext()
 	{
 		return isset($this->aStack[$this->iNumItems + 1]) ? $this->aStack[$this->iNumItems + 1] : null;
+	}
+
+	/**
+	 * Returns the canonical name of this helper.
+	 *
+	 * @return string The canonical name
+	 */
+	public function getName()
+	{
+		return 'breadcrumb';
 	}
 }

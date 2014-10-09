@@ -5,11 +5,6 @@ use Symfony\Component\Templating\Helper\Helper;
 
 class TitleTag extends Helper
 {
-	public function getName()
-	{
-		return 'titleTag';
-	}
-
 	protected $aTitles = [];
 
 	/**
@@ -82,5 +77,15 @@ class TitleTag extends Helper
 	public function __toString()
 	{
 		echo $this->get();
+	}
+
+	/**
+	 * Returns the canonical name of this helper.
+	 *
+	 * @return string The canonical name
+	 */
+	public function getName()
+	{
+		return 'titleTag';
 	}
 }

@@ -6,11 +6,6 @@ use Tao\Html\Modifiers;
 
 class Modifier extends Helper
 {
-	public function getName()
-	{
-		return 'modifier';
-	}
-
 	/**
 	 * Number format shortcut.
 	 *
@@ -115,5 +110,15 @@ class Modifier extends Helper
 		else {
 			return sprintf($more, $this->number($iNumber));
 		}
+	}
+
+	/**
+	 * Returns the canonical name of this helper.
+	 *
+	 * @return string The canonical name
+	 */
+	public function getName()
+	{
+		return 'modifier';
 	}
 }

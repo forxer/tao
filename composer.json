@@ -39,6 +39,7 @@
 		"symfony/http-foundation" : "~2.5",
 		"symfony/routing" : "~2.5",
 		"symfony/templating" : "~2.5",
+		"symfony/translation" : "~2.5",
 		"symfony/yaml" : "~2.5",
 		"swiftmailer/swiftmailer" : "~5.3",
 		"zendframework/zend-escaper" : "~2.3"
