@@ -8,7 +8,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 {
 	public function register(Container $app)
 	{
-		$app['tpl'] = function() use ($app)  {
+		$app['templating'] = function() use ($app)  {
 			return new $app['class.templating']($app);
 		};
 	}

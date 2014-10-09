@@ -12,7 +12,7 @@ class RouterServiceProvider implements ServiceProviderInterface
 
 			$router =  new $app['class.router']($app);
 
-			$app['tpl']->set(new TemplatingHelper($router->getGenerator()));
+			$app['templating']->set(new TemplatingHelper($router->getGenerator()));
 
 			return $router;
 		};

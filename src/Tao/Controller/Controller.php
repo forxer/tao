@@ -81,7 +81,7 @@ class Controller
 	 */
 	public function viewExists($view)
 	{
-		return $this->app['tpl']->exists($view);
+		return $this->app['templating']->exists($view);
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Controller
 	 */
 	public function renderView($view, array $parameters = [])
 	{
-		return $this->app['tpl']->render($view, $parameters);
+		return $this->app['templating']->render($view, $parameters);
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Controller
 			$response = new Response();
 		}
 
-		return $this->app['tpl']->renderResponse($view, $parameters, $response);
+		return $this->app['templating']->renderResponse($view, $parameters, $response);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class Controller
 	 */
 	public function stream($view, array $parameters = [], StreamedResponse $response = null)
 	{
-		$templating = $this->app['tpl'];
+		$templating = $this->app['templating'];
 
 		$callback = function () use($templating, $view, $parameters) {
 			$templating->stream($view, $parameters);

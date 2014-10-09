@@ -17,7 +17,7 @@ class TranslatorServiceProvider implements ServiceProviderInterface
 				$app['class.translator.messages.selector']
 			);
 
-			$app['tpl']->set(new TemplatingHelper($translator));
+			$app['templating']->set(new TemplatingHelper($translator));
 
 			return $translator;
 		};
