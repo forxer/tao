@@ -6,6 +6,7 @@ use Pagerfanta\View\TwitterBootstrap3View;
 use Symfony\Component\Templating\Loader\LoaderInterface;
 use Symfony\Component\Templating\PhpEngine;
 use Symfony\Component\Templating\TemplateNameParserInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Tao\Application;
 use Tao\Templating\Escaper\EscaperInterface;
 
@@ -24,6 +25,26 @@ class Templating extends PhpEngine
 		$this->setEscaper('js', [$escaper, 'js']);
 		$this->setEscaper('url', [$escaper, 'url']);
 		$this->setEscaper('css', [$escaper, 'css']);
+	}
+
+	/**
+	 * Renders a view and returns a Response.
+	 *
+	 * @param string $view The view name
+	 * @param array $parameters An array of parameters to pass to the view
+	 * @param Response $response A Response instance
+	 *
+	 * @return Response A Response instance
+	 */
+	public function renderResponse($view, array $parameters = [], Response $response = null)
+	{
+		if (null === $response) {
+			$response = $this->app['response'];
+		}
+
+		$response->setContent($this->render($view, $parameters));
+
+		return $response;
 	}
 
 	/**

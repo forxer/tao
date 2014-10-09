@@ -23,7 +23,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 				$loader->setLogger($app['logger']);
 			}
 
-			$templating =  $app['class.templating'](
+			$templating = new $app['class.templating'](
 				$app,
 				new $app['class.templating.template_name_parser'],
 				$loader,

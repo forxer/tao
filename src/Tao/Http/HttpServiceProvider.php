@@ -3,6 +3,7 @@ namespace Tao\Http;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class HttpServiceProvider implements ServiceProviderInterface
 {
@@ -31,6 +32,10 @@ class HttpServiceProvider implements ServiceProviderInterface
 				$app['flashMessages'],
 				$app['sec.csrf_token_name']
 			);
+		};
+
+		$app['response'] = function() use ($app) {
+			return new $app['class.http.response'];
 		};
 	}
 }

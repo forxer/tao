@@ -7,9 +7,9 @@ class ZendEscaper  implements EscaperInterface
 {
 	protected $escaper = null;
 
-	public function __construct()
+	public function __construct($encoding = null)
 	{
-		$this->escaper = new Escaper('utf-8');
+		$this->escaper = new Escaper($encoding);
 	}
 
 	public function html($string)

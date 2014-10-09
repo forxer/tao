@@ -79,6 +79,9 @@ class Application extends Container
 				$this['router']->matchRequest($this['request'])
 			);
 
+			$this['router']->callController();
+
+			/*
 			$response = $this['router']->callController();
 
 			if (null === $response || false === $response)
@@ -88,6 +91,7 @@ class Application extends Container
 				$response->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
 				$response->setContent('Unable to load controller ' . $this['request']->attributes->get('controller'));
 			}
+			*/
 		}
 		catch (ResourceNotFoundException $e)
 		{
@@ -95,15 +99,14 @@ class Application extends Container
 		}
 		catch (\Exception $e)
 		{
-			$response = new Response();
-			$response->headers->set('Content-Type', 'text/plain');
-			$response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-			$response->setContent($e->getMessage());
+			$this['response']->headers->set('Content-Type', 'text/plain');
+			$this['response']->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+			$this['response']->setContent($e->getMessage());
 		}
 
-		$response->prepare($this['request']);
+		$this['response']->prepare($this['request']);
 
-		$response->send();
+		$this['response']->send();
 	}
 
 	/**
