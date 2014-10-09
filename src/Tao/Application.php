@@ -82,20 +82,17 @@ class Application extends Container
 			$this['router']->callController();
 
 			/*
-			$response = $this['router']->callController();
-
-			if (null === $response || false === $response)
+			if (null === $this['response'] || false === $this['response'])
 			{
-				$response = new Response();
-				$response->headers->set('Content-Type', 'text/plain');
-				$response->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
-				$response->setContent('Unable to load controller ' . $this['request']->attributes->get('controller'));
+				$this['response']->headers->set('Content-Type', 'text/plain');
+				$this['response']->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
+				$this['response']->setContent('Unable to load controller ' . $this['request']->attributes->get('controller'));
 			}
 			*/
 		}
 		catch (ResourceNotFoundException $e)
 		{
-			$response = (new Controller($this))->serve404();
+			(new Controller($this))->serve404();
 		}
 		catch (\Exception $e)
 		{
