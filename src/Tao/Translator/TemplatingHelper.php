@@ -1,10 +1,10 @@
 <?php
-namespace Tao\Templating\Helpers;
+namespace Tao\Translator;
 
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class Translator extends Helper
+class TemplatingHelper extends Helper
 {
 	protected $translator;
 
