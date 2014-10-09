@@ -1,5 +1,5 @@
 <?php
-namespace Tao\Routing;
+namespace Tao\Translator;
 
 use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\Translator as BaseTranslator;
@@ -19,7 +19,7 @@ class Translator extends BaseTranslator
 		$this->app = $app;
 
 		return parent::__construct(
-			$app['visitor']->getLanguage(),
+			$app['session']->getLanguage(),
 			new MessageSelector()
 		);
 	}

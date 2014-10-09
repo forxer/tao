@@ -13,6 +13,7 @@ use Tao\Logger\LoggerServiceProvider;
 use Tao\Messages\MessagesServiceProvider;
 use Tao\Routing\RouterServiceProvider;
 use Tao\Templating\TemplatingServiceProvider;
+use Tao\Translator\TranslatorServiceProvider;
 use Tao\Triggers\TriggersServiceProvider;
 use Whoops\Run as WhoopsRun;
 use Whoops\Handler\PrettyPageHandler as WhoopsHandler;
@@ -169,6 +170,7 @@ class Application extends Container
 		$this->register(new MessagesServiceProvider());
 		$this->register(new RouterServiceProvider());
 		$this->register(new TemplatingServiceProvider());
+		$this->register(new TranslatorServiceProvider());
 		$this->register(new TriggersServiceProvider());
 	}
 
