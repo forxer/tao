@@ -3,77 +3,27 @@ namespace Tao\Templating;
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\View\TwitterBootstrap3View;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Templating\Asset\PathPackage;
-use Symfony\Component\Templating\Helper\AssetsHelper;
-use Symfony\Component\Templating\Helper\SlotsHelper;
-use Symfony\Component\Templating\Loader\FilesystemLoader;
+use Symfony\Component\Templating\Loader\LoaderInterface;
 use Symfony\Component\Templating\PhpEngine;
-use Symfony\Component\Templating\TemplateNameParser;
+use Symfony\Component\Templating\TemplateNameParserInterface;
 use Tao\Application;
-use Tao\Html\Modifiers;
-use Tao\Templating\Helpers\Breadcrumb;
-use Tao\Templating\Helpers\FormElements;
-use Tao\Templating\Helpers\Modifier;
-use Tao\Templating\Helpers\TitleTag;
-use Zend\Escaper\Escaper;
-use Tao\Templating\Helpers\Translator;
+use Tao\Templating\Escaper\EscaperInterface;
 
 class Templating extends PhpEngine
 {
 	protected $app;
 
-	protected $escaper;
-
-	public function __construct(Application $app)
+	public function __construct(Application $app, TemplateNameParserInterface $templateNameParser, LoaderInterface $loader, EscaperInterface $escaper)
 	{
 		$this->app = $app;
 
-		$loader = new FilesystemLoader([ $app['dir.views'] . '/%name%.php' ]);
+		parent::__construct(new $templateNameParser(), $loader);
 
-		if ($this->app['debug']) {
-			$loader->setLogger($app['logger']);
-		}
-
-		parent::__construct(new TemplateNameParser(), $loader);
-
-		$this->set(new SlotsHelper());
-
-		$this->set(new AssetsHelper());
-		$this->get('assets')->addPackage('assets', new PathPackage($app['assets_url']));
-		$this->get('assets')->addPackage('components', new PathPackage($app['components_url']));
-
-		$this->set(new Breadcrumb());
-		$this->set(new FormElements());
-		$this->set(new Modifier());
-		$this->set(new TitleTag());
-
-		$this->escaper = new Escaper('utf-8');
-
-		$this->addBuiltInEscapers();
-
-		$this->addGlobal('app', $app);
-	}
-
-	/**
-	 * Renders a view and returns a Response.
-	 *
-	 * @param string $view The view name
-	 * @param array $parameters An array of parameters to pass to the view
-	 * @param Response $response A Response instance
-	 *
-	 * @return Response A Response instance
-	 */
-	public function renderResponse($view, array $parameters = [], Response $response = null)
-	{
-		if (null === $response) {
-			$response = new Response();
-		}
-
-		$response->setContent($this->render($view, $parameters));
-
-		return $response;
+		$this->setEscaper('html', [$escaper, 'html']);
+		$this->setEscaper('html_attr', [$escaper, 'htmlAttr']);
+		$this->setEscaper('js', [$escaper, 'js']);
+		$this->setEscaper('url', [$escaper, 'url']);
+		$this->setEscaper('css', [$escaper, 'css']);
 	}
 
 	/**
@@ -100,51 +50,102 @@ class Templating extends PhpEngine
 		);
 	}
 
-	public function addBuiltInEscapers()
+	/**
+	 * $view->escape($value) alias
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function e($value)
 	{
-		$this->setEscaper('html', [
-			$this->escaper,
-			'escapeHtml'
-		]);
-
-		$this->setEscaper('html_attr', [
-			$this->escaper,
-			'escapeHtmlAttr'
-		]);
-
-		$this->setEscaper('js', [
-			$this->escaper,
-			'escapeJs'
-		]);
-
-		$this->setEscaper('url', [
-			$this->escaper,
-			'escapeUrl'
-		]);
-
-		$this->setEscaper('css', [
-			$this->escaper,
-			'escapeCss'
-		]);
+		return $this->escape($value);
 	}
 
-	public function escapeHtmlAttr($string)
+	/**
+	 * $view->escape($value, 'html_attr') alias
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function escapeHtmlAttr($value)
 	{
-		return $this->escape($string, 'html_attr');
+		return $this->escape($value, 'html_attr');
 	}
 
-	public function escapeJs($string)
+	/**
+	 * $view->escape($value, 'html_attr') alias
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function eAttr($value)
 	{
-		return $this->escape($string, 'js');
+		return $this->escape($value, 'html_attr');
 	}
 
-	public function escapeUrl($string)
+	/**
+	 * $view->escape($value, 'js') alias
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function escapeJs($value)
 	{
-		return $this->escape($string, 'url');
+		return $this->escape($value, 'js');
 	}
 
-	public function escapeCss($string)
+	/**
+	 * $view->escape($value, 'js') alias
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function eJs($value)
 	{
-		return $this->escape($string, 'css');
+		return $this->escape($value, 'js');
+	}
+
+	/**
+	 * $view->escape($value, 'url') alias
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function escapeUrl($value)
+	{
+		return $this->escape($value, 'url');
+	}
+
+	/**
+	 * $view->escape($value, 'url') alias
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function eUrl($value)
+	{
+		return $this->escape($value, 'url');
+	}
+
+	/**
+	 * $view->escape($value, 'css') alias
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function escapeCss($value)
+	{
+		return $this->escape($value, 'css');
+	}
+
+	/**
+	 * $view->escape($value, 'css') alias
+	 *
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function eCss($value)
+	{
+		return $this->escape($value, 'css');
 	}
 }
