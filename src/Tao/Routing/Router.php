@@ -52,7 +52,7 @@ class Router extends BaseRouter
 
 		list($class, $method) = explode('::', $controller, 2);
 
-		$namespacedClass = 'Application\\Controllers\\' . $class;
+		$namespacedClass = $this->app['namespace.controllers'] . '\\' . $class;
 
 		if (!class_exists($namespacedClass)) {
 			throw new RuntimeException(sprintf('Class "%s" does not exist.', $namespacedClass));

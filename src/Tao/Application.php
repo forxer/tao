@@ -69,7 +69,6 @@ class Application extends Container
 	/**
 	 * Run the application.
 	 *
-	 * @todo need to review and rewrite all of this method
 	 */
 	public function run()
 	{
@@ -80,19 +79,10 @@ class Application extends Container
 			);
 
 			$response = $this['router']->callController();
-
-			/*
-			if (null === $response || false === $response)
-			{
-				$response->headers->set('Content-Type', 'text/plain');
-				$response->setStatusCode(Response::HTTP_NOT_IMPLEMENTED);
-				$response->setContent('Unable to load controller ' . $this['request']->attributes->get('controller'));
-			}
-			*/
 		}
 		catch (ResourceNotFoundException $e)
 		{
-			(new Controller($this))->serve404();
+			$response = (new Controller($this))->serve404();
 		}
 		catch (\Exception $e)
 		{
@@ -115,23 +105,13 @@ class Application extends Container
 	 */
 	public function getModel($sModel)
 	{
-		$namespacedClass = '\\Application\\Models\\' . $sModel;
+		$namespacedClass = $this['namespace.models'] . '\\' . $sModel;
 
 		if (!isset(static::$models[$sModel])) {
 			static::$models[$sModel] = new $namespacedClass($this);
 		}
 
 		return static::$models[$sModel];
-	}
-
-	/**
-	 * Return Tao version.
-	 *
-	 * @return string
-	 */
-	public function getVersion()
-	{
-		return static::VERSION;
 	}
 
 	/**
