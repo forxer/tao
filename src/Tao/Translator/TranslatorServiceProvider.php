@@ -12,9 +12,9 @@ class TranslatorServiceProvider implements ServiceProviderInterface
 	{
 		$app['translator'] = function() use ($app)  {
 
-			$translator = $app['class.translator'](
+			$translator = new $app['class.translator'](
 				$app['session']->getLanguage(),
-				$app['class.translator.messages_selector']
+				new $app['class.translator.messages_selector']
 			);
 
 			$app['templating']->set(new TemplatingHelper($translator));
