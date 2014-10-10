@@ -33,9 +33,5 @@ class HttpServiceProvider implements ServiceProviderInterface
 				$app['sec.csrf_token_name']
 			);
 		};
-
-		$app['response'] = function() use ($app) {
-			return new $app['class.http.response'];
-		};
 	}
 }

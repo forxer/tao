@@ -39,7 +39,7 @@ class Templating extends PhpEngine
 	public function renderResponse($view, array $parameters = [], Response $response = null)
 	{
 		if (null === $response) {
-			$response = $this->app['response'];
+			$response = new Response;
 		}
 
 		$response->setContent($this->render($view, $parameters));

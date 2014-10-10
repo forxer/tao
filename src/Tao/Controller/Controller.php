@@ -109,7 +109,7 @@ class Controller
 	public function render($view, array $parameters = [], Response $response = null)
 	{
 		if (null === $response) {
-			$response = new $this->app['response'];
+			$response = new Response();
 		}
 
 		return $this->app['templating']->renderResponse($view, $parameters, $response);
@@ -146,9 +146,10 @@ class Controller
 	 */
 	public function serve401()
 	{
-		$this->app['response']->setStatusCode(Response::HTTP_UNAUTHORIZED);
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_UNAUTHORIZED);
 
-		return $this->render('Errors/401', [], $this->app['response']);
+		return $this->render('Errors/401', [], $response);
 	}
 
 	/**
@@ -156,9 +157,10 @@ class Controller
 	 */
 	public function serve404()
 	{
-		$this->app['response']->setStatusCode(Response::HTTP_NOT_FOUND);
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_NOT_FOUND);
 
-		return $this->render('Errors/404', [], $this->app['response']);
+		return $this->render('Errors/404', [], $response);
 	}
 
 	/**
@@ -166,10 +168,11 @@ class Controller
 	 */
 	public function serve503()
 	{
-		$this->app['response']->setStatusCode(Response::HTTP_SERVICE_UNAVAILABLE);
-		$this->app['response']->headers->set('Retry-After', 3600);
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_SERVICE_UNAVAILABLE);
+		$response->headers->set('Retry-After', 3600);
 
-		return $this->render('Errors/503', [], $this->app['response']);
+		return $this->render('Errors/503', [], $response);
 	}
 
 	/**
