@@ -3,7 +3,6 @@
 	"description" : "Tools in PHP for Web Development, based on famous libraries.",
 	"type" : "library",
 	"keywords" : [
-		"framework",
 		"php"
 	],
 	"homepage" : "https://github.com/forxer/tao",
@@ -19,30 +18,25 @@
 	},
 	"minimum-stability" : "stable",
 	"require" : {
-		"doctrine/dbal" : "~2.4",
-		"ezyang/htmlpurifier" : "~4.6",
-		"filp/whoops" : "1.1",
-		"fzaninotto/Faker" : "~1.4",
-		"guzzlehttp/guzzle" : "~4.2",
-		"imagine/imagine" : "~0.6",
-		"jdorn/sql-formatter" : "~1.2",
 		"monolog/monolog" : "~1.10",
-		"mrclay/minify" : "~2.2",
-		"nesbot/carbon" : "~1",
 		"pagerfanta/pagerfanta" : "~1.0",
 		"patchwork/utf8" : "~1.1",
 		"pimple/pimple" : "~3.0",
-		"raveren/kint" : "~0.9",
 		"symfony/config" : "~2.5",
-		"symfony/filesystem" : "~2.5",
-		"symfony/finder" : "~2.5",
 		"symfony/http-foundation" : "~2.5",
 		"symfony/routing" : "~2.5",
 		"symfony/templating" : "~2.5",
-		"symfony/translation" : "~2.5",
 		"symfony/yaml" : "~2.5",
-		"swiftmailer/swiftmailer" : "~5.3",
 		"zendframework/zend-escaper" : "~2.3"
+	},
+	"require-dev": {
+		"filp/whoops" : "~1.1",
+		"jdorn/sql-formatter" : "~1.2",
+		"raveren/kint" : "~0.9"
+	},
+	"suggest": {
+		"doctrine/dbal" : "Allows use of the database service in your application",
+		"symfony/translation" : "Allows use of the translantion service in your application"
 	},
 	"autoload" : {
 		"psr-4" : {
