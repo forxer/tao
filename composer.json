@@ -18,10 +18,13 @@
 	},
 	"minimum-stability" : "stable",
 	"require" : {
+		"filp/whoops" : "~1.1",
+		"jdorn/sql-formatter" : "~1.2",
 		"monolog/monolog" : "~1.10",
 		"pagerfanta/pagerfanta" : "~1.0",
 		"patchwork/utf8" : "~1.1",
 		"pimple/pimple" : "~3.0",
+		"raveren/kint" : "~0.9",
 		"symfony/config" : "~2.5",
 		"symfony/http-foundation" : "~2.5",
 		"symfony/routing" : "~2.5",
@@ -29,12 +32,9 @@
 		"symfony/yaml" : "~2.5",
 		"zendframework/zend-escaper" : "~2.3"
 	},
-	"require-dev": {
-		"filp/whoops" : "~1.1",
-		"jdorn/sql-formatter" : "~1.2",
-		"raveren/kint" : "~0.9"
+	"require-dev" : {
 	},
-	"suggest": {
+	"suggest" : {
 		"doctrine/dbal" : "Allows use of the database service in your application",
 		"symfony/translation" : "Allows use of the translantion service in your application"
 	},
