@@ -1,7 +1,7 @@
 Tao
 ===
 
-_Tiny and lightweight PHP proto-framework based on famous libraries_
+_Tools in PHP for Web Development, based on famous libraries._
 
 Après avoir copié/collé des fichiers dans trois projets web différents, je me suis dit qu'il était temps de mutualiser, versionner et distribuer ces outils.
 

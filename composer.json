@@ -1,6 +1,6 @@
 {
 	"name" : "forxer/tao",
-	"description" : "Tiny and lightweight PHP proto-framework based on famous libraries.",
+	"description" : "Tools in PHP for Web Development, based on famous libraries.",
 	"type" : "library",
 	"keywords" : [
 		"framework",
