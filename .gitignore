@@ -1,6 +1,2 @@
-
-# composer
-/vendor
-
-# misc
-/test.php
+vendor/
+composer.lock
