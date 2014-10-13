@@ -3,6 +3,8 @@ namespace Tao\Translator;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Translation\Loader\PhpFileLoader;
 use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\Translator;
 
@@ -18,6 +20,23 @@ class TranslatorServiceProvider implements ServiceProviderInterface
 				$app['translator.cache_dir'],
 				$app['debug']
 			);
+
+			if ($app['translator.use_default_php_loader'])
+			{
+				$translator->addLoader('php', new PhpFileLoader());
+
+				$finder = (new Finder())
+					->files()
+					->in($app['translator.dir'])
+					->name('*.php');
+
+				foreach ($finder as $file)
+				{
+					$translator->addResource('php', $this['translator.dir'] . $file->getRelativePathname(), 'fr');
+
+				}
+
+			}
 
 			$app['templating']->set(new TemplatingHelper($translator));
 
