@@ -10,13 +10,13 @@ class HttpServiceProvider implements ServiceProviderInterface
 	public function register(Container $app)
 	{
 		$app['request'] = function() use ($app) {
-			return $app['class.http.request']::createFromGlobals();
+			return $app['http.request_class']::createFromGlobals();
 		};
 
 		$app['session'] = function() use ($app) {
-			return new $app['class.session'](
+			return new $app['session.class'](
 				$app,
-				new $app['class.session.storage'](
+				new $app['session.storage_class'](
 					[
 						'cookie_lifetime' 	=> 0,
 						'cookie_path' 		=> $app['app_url'],
@@ -25,7 +25,7 @@ class HttpServiceProvider implements ServiceProviderInterface
 						'use_trans_sid' 	=> false,
 						'use_only_cookies' 	=> true
 					],
-					new $app['class.session.handler']()
+					new $app['session.handler_class']()
 				),
 				null,
 				$app['persistentMessages'],

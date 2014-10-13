@@ -10,17 +10,17 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	{
 		$app['db'] = function() use ($app)
 		{
-			$config = new $app['class.dbal.config']();
+			$config = new $app['database.config_class']();
 
 			if ($app['debug']) {
-				$config->setSQLLogger(new $app['class.dbal.logging']());
+				$config->setSQLLogger(new $app['database.logger_class']());
 			}
 
-			return $app['class.dbal.driver.manager']::getConnection($app['db_params'], $config);
+			return $app['database.driver_manager_class']::getConnection($app['database.connection'], $config);
 		};
 
 		$app['qb'] = $app->factory(function ($app) {
-			return new $app['class.dbal.query.builder']($app['db']);
+			return new $app['database.query_builder_class']($app['db']);
 		});
 	}
 }

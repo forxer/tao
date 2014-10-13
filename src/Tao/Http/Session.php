@@ -44,11 +44,6 @@ class Session extends BaseSession
 		$this->autoExpireFlashName = $autoExpireFlashBag->getName();
 		$this->registerBag($autoExpireFlashBag);
 
-		$this->storage->setOptions([
-			'use_trans_sid'      => '0',
-			'use_only_cookies'   => '1'
-		]);
-
 		$this->start();
 
 		$this->sTokenNamespace = $sTokenNamespace;
@@ -117,8 +112,8 @@ class Session extends BaseSession
 			$sLanguage = $this->getPreferedLanguage();
 		}
 
-		if (!array_key_exists($sLanguage, $this->app['accepted_locales'])) {
-			$sLanguage = $this->application->config['fallback_locale'];
+		if (!array_key_exists($sLanguage, $this->app['translator.locales'])) {
+			$sLanguage = $this->application->config['translator.fallback'];
 		}
 
 		$this->set('language', $sLanguage);

@@ -16,25 +16,28 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 	{
 		$app['templating'] = function() use ($app)  {
 
-			$loader = new $app['class.templating.loader']([ $app['dir.views'] . $app['template.path.patterns'] ]);
+			$loader = new $app['templating.loader']([ $app['templating.path.patterns'] ]);
 
 			if ($app['debug']) {
 				$loader->setLogger($app['logger']);
 			}
 
-			$templating = new $app['class.templating'](
+			$templating = new $app['templating.engine'](
 				$app,
-				new $app['class.templating.template_name_parser'],
+				new $app['templating.name_parser'],
 				$loader,
-				new $app['class.templating.escaper']('utf-8')
+				new $app['templating.escaper']('utf-8')
 			);
 
-			$templating->set(new AssetsHelper());
-			$templating->set(new Breadcrumb());
-			$templating->set(new FormElements());
-			$templating->set(new Modifier());
-			$templating->set(new SlotsHelper());
-			$templating->set(new TitleTag());
+			if ($app['templating.load_default_helpers'])
+			{
+				$templating->set(new AssetsHelper());
+				$templating->set(new Breadcrumb());
+				$templating->set(new FormElements());
+				$templating->set(new Modifier());
+				$templating->set(new SlotsHelper());
+				$templating->set(new TitleTag());
+			}
 
 			/*
 			 * @TODO this is realy a bad practise,

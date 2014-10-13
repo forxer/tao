@@ -33,7 +33,7 @@ class Application extends Container
 		$this->startTime = microtime(true);
 
 		# Call container constructor
-		parent::__construct();
+		parent::__construct($config);
 
 		# Register core services providers
 		$this->register(new HttpServiceProvider());
@@ -50,9 +50,6 @@ class Application extends Container
 
 		# Normalizes HTTP inputs to UTF-8 NFC
 		Utf8Bootup::filterRequestInputs();
-
-		# Register configuration data
-		$this->registerConfiguration($config);
 
 		# Print errors in debug mode
 		if ($this['debug'])
@@ -79,7 +76,7 @@ class Application extends Container
 				$this['router']->matchRequest($this['request'])
 			);
 
-			$response = $this['router']->callController();
+			$response = $this['controllerResolver'];
 		}
 		catch (ResourceNotFoundException $e)
 		{
@@ -106,7 +103,7 @@ class Application extends Container
 	 */
 	public function getModel($sModel)
 	{
-		$namespacedClass = $this['namespace.models'] . '\\' . $sModel;
+		$namespacedClass = $this['database.models_namespace'] . '\\' . $sModel;
 
 		if (!isset(static::$models[$sModel])) {
 			static::$models[$sModel] = new $namespacedClass($this);
@@ -137,43 +134,5 @@ class Application extends Container
 		$unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
 		return @round($memoryUsage/pow(1024, ($i=floor(log($memoryUsage, 1024))) ), 2).' '.$unit[$i];
-	}
-
-	/**
-	 * Format and register configuration data into the container.
-	 *
-	 * @param array $values
-	 */
-	protected function registerConfiguration(array $values = [])
-	{
-		# First pass : format special configuration values
-		foreach ($values as $key => $value)
-		{
-			# Special case for absolute directory paths
-			if (strpos($key, 'dir.') === 0)
-			{
-				$values[$key] = realpath($value);
-
-				continue;
-			}
-
-			# Special case for database connexion configuration
-			if (strpos($key, 'db.') === 0)
-			{
-				$values['db_params'][substr($key, 3)] = $value;
-
-				unset($values[$key]);
-
-				continue;
-			}
-		}
-
-		# Second pass : add config values to the container
-		foreach ($values as $key => $value) {
-			$this[$key] = $value;
-		}
-
-		# Set the path to the Tao directory
-		$this['dir.tao'] = __DIR__;
 	}
 }
