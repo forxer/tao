@@ -18,7 +18,7 @@ class Templating extends PhpEngine
 	{
 		$this->app = $app;
 
-		parent::__construct(new $templateNameParser(), $loader);
+		parent::__construct($templateNameParser, $loader);
 
 		$this->setEscaper('html', [$escaper, 'html']);
 		$this->setEscaper('html_attr', [$escaper, 'htmlAttr']);

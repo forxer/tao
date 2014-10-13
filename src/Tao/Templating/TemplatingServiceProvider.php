@@ -3,7 +3,6 @@ namespace Tao\Templating;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Symfony\Component\Templating\Asset\PathPackage;
 use Symfony\Component\Templating\Helper\AssetsHelper;
 use Symfony\Component\Templating\Helper\SlotsHelper;
 use Tao\Templating\Helpers\Breadcrumb;
@@ -30,15 +29,11 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 				new $app['class.templating.escaper']('utf-8')
 			);
 
-			$templating->set(new SlotsHelper());
-
 			$templating->set(new AssetsHelper());
-				$templating->get('assets')->addPackage('assets', new PathPackage($app['assets_url']));
-				$templating->get('assets')->addPackage('components', new PathPackage($app['components_url']));
-
 			$templating->set(new Breadcrumb());
 			$templating->set(new FormElements());
 			$templating->set(new Modifier());
+			$templating->set(new SlotsHelper());
 			$templating->set(new TitleTag());
 
 			/*
