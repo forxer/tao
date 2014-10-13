@@ -15,8 +15,10 @@ use Tao\Templating\TemplatingServiceProvider;
 use Whoops\Run as WhoopsRun;
 use Whoops\Handler\PrettyPageHandler as WhoopsHandler;
 
-class Application extends Container
+abstract class Application extends Container
 {
+	protected $appDir;
+
 	protected $startTime;
 
 	protected static $models;
@@ -27,13 +29,15 @@ class Application extends Container
 	 * @param object $loader The autoloader instance.
 	 * @param array $config The configuration of the application.
 	 */
-	public function __construct($loader, array $config = [])
+	public function __construct($loader, array $config = [], $appDir = null)
 	{
 		# Register start time
 		$this->startTime = microtime(true);
 
+		$this->appDir = $appDir;
+
 		# Call container constructor
-		parent::__construct($config);
+		parent::__construct($config + $this->getBaseConfiguration());
 
 		# Register core services providers
 		$this->register(new HttpServiceProvider());
@@ -62,6 +66,9 @@ class Application extends Container
 		else {
 			ErrorHandler::register($this['phpLogger']);
 		}
+
+		# ok, now call the application initialization
+		$this->init();
 	}
 
 	/**
@@ -134,5 +141,10 @@ class Application extends Container
 		$unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
 		return @round($memoryUsage/pow(1024, ($i=floor(log($memoryUsage, 1024))) ), 2).' '.$unit[$i];
+	}
+
+	private function getBaseConfiguration()
+	{
+		return require __DIR__ . 'BaseConfiguration.php';
 	}
 }
