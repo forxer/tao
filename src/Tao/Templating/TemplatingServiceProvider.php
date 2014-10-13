@@ -16,17 +16,17 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 	{
 		$app['templating'] = function() use ($app)  {
 
-			$loader = new $app['templating.loader']([ $app['templating.path.patterns'] ]);
+			$loader = new $app['templating.loader_class']([ $app['templating.path.patterns'] ]);
 
 			if ($app['debug']) {
 				$loader->setLogger($app['logger']);
 			}
 
-			$templating = new $app['templating.engine'](
+			$templating = new $app['templating.class'](
 				$app,
-				new $app['templating.name_parser'],
+				new $app['templating.name_parser_class'],
 				$loader,
-				new $app['templating.escaper']('utf-8')
+				new $app['templating.escaper_class']('utf-8')
 			);
 
 			if ($app['templating.load_default_helpers'])
