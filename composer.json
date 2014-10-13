@@ -32,8 +32,6 @@
 		"symfony/yaml" : "~2.5",
 		"zendframework/zend-escaper" : "~2.3"
 	},
-	"require-dev" : {
-	},
 	"suggest" : {
 		"doctrine/dbal" : "Allows use of the database service in your application",
 		"symfony/translation" : "Allows use of the translantion service in your application"

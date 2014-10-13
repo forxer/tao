@@ -7,14 +7,11 @@ use Pimple\Container;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Tao\Controller\Controller;
-use Tao\Database\DatabaseServiceProvider;
 use Tao\Http\HttpServiceProvider;
 use Tao\Logger\LoggerServiceProvider;
 use Tao\Messages\MessagesServiceProvider;
 use Tao\Routing\RouterServiceProvider;
 use Tao\Templating\TemplatingServiceProvider;
-use Tao\Translator\TranslatorServiceProvider;
-use Tao\Triggers\TriggersServiceProvider;
 use Whoops\Run as WhoopsRun;
 use Whoops\Handler\PrettyPageHandler as WhoopsHandler;
 
@@ -39,7 +36,11 @@ class Application extends Container
 		parent::__construct();
 
 		# Register core services providers
-		$this->registerCoreServiceProvider();
+		$this->register(new HttpServiceProvider());
+		$this->register(new LoggerServiceProvider());
+		$this->register(new MessagesServiceProvider());
+		$this->register(new RouterServiceProvider());
+		$this->register(new TemplatingServiceProvider());
 
 		# Enables the portablity layer and configures PHP for UTF-8
 		Utf8Bootup::initAll();
@@ -136,23 +137,6 @@ class Application extends Container
 		$unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
 		return @round($memoryUsage/pow(1024, ($i=floor(log($memoryUsage, 1024))) ), 2).' '.$unit[$i];
-	}
-
-	/**
-	 * Register core service provider.
-	 *
-	 * @return void
-	 */
-	protected function registerCoreServiceProvider()
-	{
-		$this->register(new DatabaseServiceProvider());
-		$this->register(new HttpServiceProvider());
-		$this->register(new LoggerServiceProvider());
-		$this->register(new MessagesServiceProvider());
-		$this->register(new RouterServiceProvider());
-		$this->register(new TemplatingServiceProvider());
-		$this->register(new TranslatorServiceProvider());
-		$this->register(new TriggersServiceProvider());
 	}
 
 	/**
