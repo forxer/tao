@@ -14,7 +14,9 @@ class TranslatorServiceProvider implements ServiceProviderInterface
 
 			$translator = new $app['translator.class'](
 				$app['session']->getLanguage(),
-				new $app['translator.messages_selector_class']
+				new $app['translator.messages_selector_class'],
+				$app['translator.cache_dir'],
+				$app['debug']
 			);
 
 			$app['templating']->set(new TemplatingHelper($translator));
