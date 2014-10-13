@@ -26,12 +26,12 @@ class RouterServiceProvider implements ServiceProviderInterface
 					'generator_class' => $app['routing.generator_class'],
 					'generator_base_class' => $app['routing.generator_base_class'],
 					'generator_dumper_class' => $app['routing.generator_dumper_class'],
-					'generator_cache_class' => $app['routing.generator_cache_class'],
+					'generator_cache_class' => $app['routing.generator_cache_class'] ?: $app['app_id'] . 'UrlGenerator',
 
 					'matcher_class' => $app['routing.matcher_class'],
 					'matcher_base_class' => $app['routing.matcher_base_class'],
 					'matcher_dumper_class' => $app['routing.matcher_dumper_class'],
-					'matcher_cache_class' => $app['routing.matcher_cache_class'],
+					'matcher_cache_class' => $app['routing.matcher_cache_class'] ?: $app['app_id'] . 'UrlMatcher',
 
 					'resource_type' => $app['routing.resource_type'],
 					'strict_requirements' => $app['routing.strict_requirements']
