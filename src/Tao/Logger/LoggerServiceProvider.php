@@ -37,7 +37,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
 				[
 					new FingersCrossedHandler(
 						new StreamHandler(
-							$app['dir.logs'] . '/php_errors.log',
+							$app['logger.dir'] . '/php_errors.log',
 							$app['logger']::INFO
 						),
 						$app['logger']::WARNING
