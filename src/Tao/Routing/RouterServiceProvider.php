@@ -58,17 +58,16 @@ class RouterServiceProvider implements ServiceProviderInterface
 
 			list($class, $method) = explode('::', $controller, 2);
 
-			$namespacedClass = $class;
 			if ($app['routing.controllers_namespace']) {
-				$namespacedClass = $app['routing.controllers_namespace'] . '\\' . $class;
+				$class = $app['routing.controllers_namespace'] . '\\' . $class;
 			}
 
-			if (!class_exists($namespacedClass)) {
-				throw new \RuntimeException(sprintf('Class "%s" does not exist.', $namespacedClass));
+			if (!class_exists($class)) {
+				throw new \RuntimeException(sprintf('Class "%s" does not exist.', $class));
 			}
 
 			$callable = [
-				new $namespacedClass($app),
+				new $class($app),
 				$method
 			];
 

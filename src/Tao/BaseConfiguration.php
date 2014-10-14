@@ -65,7 +65,8 @@ return [
 	# Minify
 	# ----------------------------------------------------------
 
-	'minify.cache_dir' => $this->appDir . '/Storage/Cache/Minify',
+	// not implemented
+	//'minify.cache_dir' => $this->appDir . '/Storage/Cache/Minify',
 
 
 	# Routing
@@ -79,7 +80,7 @@ return [
 	# Name of resource files
 	'routing.resource_name' => 'routes.yml',
 
-	'routing.controllers_namespace' => 'Application\Controllers',
+	'routing.controllers_namespace' => null,
 
 	'routing.cache_dir' => $this->appDir . '/Storage/Cache/Router',
 
