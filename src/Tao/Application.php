@@ -66,9 +66,6 @@ abstract class Application extends Container
 		else {
 			ErrorHandler::register($this['phpLogger']);
 		}
-
-		# ok, now call the application initialization
-		$this->init();
 	}
 
 	/**
@@ -145,6 +142,6 @@ abstract class Application extends Container
 
 	private function getBaseConfiguration()
 	{
-		return require __DIR__ . 'BaseConfiguration.php';
+		return require __DIR__ . '/BaseConfiguration.php';
 	}
 }

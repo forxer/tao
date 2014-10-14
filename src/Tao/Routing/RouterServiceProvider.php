@@ -39,10 +39,12 @@ class RouterServiceProvider implements ServiceProviderInterface
 				$requestContext
 			);
 
-			$app['templating']->set(new TemplatingHelper($router->getGenerator()));
-
 			return $router;
 		};
+
+		if ($app['templating.load_default_helpers']) {
+			$app['templating']->set(new TemplatingHelper($app['router']->getGenerator()));
+		}
 
 		$app['controllerResolver'] = function() use ($app) {
 

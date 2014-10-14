@@ -32,15 +32,19 @@ class TranslatorServiceProvider implements ServiceProviderInterface
 
 				foreach ($finder as $file)
 				{
-					$translator->addResource('php', $this['translator.dir'] . $file->getRelativePathname(), 'fr');
-
+					$translator->addResource(
+						'php',
+						$app['translator.dir'] . '/' . $file->getRelativePathname(),
+						$file->getRelativePath()
+					);
 				}
-
 			}
-
-			$app['templating']->set(new TemplatingHelper($translator));
 
 			return $translator;
 		};
+
+		if ($app['templating.load_default_helpers']) {
+			$app['templating']->set(new TemplatingHelper($app['translator']));
+		}
 	}
 }
