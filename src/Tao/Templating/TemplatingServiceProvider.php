@@ -8,6 +8,7 @@ use Symfony\Component\Templating\Helper\SlotsHelper;
 use Tao\Templating\Helpers\Breadcrumb;
 use Tao\Templating\Helpers\FormElements;
 use Tao\Templating\Helpers\Modifier;
+use Tao\Templating\Helpers\Router;
 use Tao\Templating\Helpers\TitleTag;
 
 class TemplatingServiceProvider implements ServiceProviderInterface
@@ -35,6 +36,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 				$templating->set(new Breadcrumb());
 				$templating->set(new FormElements());
 				$templating->set(new Modifier());
+				$templating->set(new Router($app['router']->getGenerator()));
 				$templating->set(new SlotsHelper());
 				$templating->set(new TitleTag());
 			}

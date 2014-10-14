@@ -1,21 +1,21 @@
 <?php
-namespace Tao\Routing;
+namespace Tao\Templating\Helpers;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\Helper\Helper;
 
-class TemplatingHelper extends Helper
+class Router extends Helper
 {
 	protected $generator;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param UrlGeneratorInterface $router A Router instance
+	 * @param UrlGeneratorInterface $generator A generator instance
 	 */
-	public function __construct(UrlGeneratorInterface $router)
+	public function __construct(UrlGeneratorInterface $generator)
 	{
-		$this->generator = $router;
+		$this->generator = $generator;
 	}
 
 	/**

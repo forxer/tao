@@ -21,7 +21,7 @@ class RouterServiceProvider implements ServiceProviderInterface
 				$app['routing.resource_name'],
 				[
 					'debug' 	=> $app['debug'],
-					'cache_dir' => $app['routing.cache_dir'].'/Router',
+					'cache_dir' => $app['routing.cache_dir'],
 
 					'generator_class' => $app['routing.generator_class'],
 					'generator_base_class' => $app['routing.generator_base_class'],
@@ -41,10 +41,6 @@ class RouterServiceProvider implements ServiceProviderInterface
 
 			return $router;
 		};
-
-		if ($app['templating.load_default_helpers']) {
-			$app['templating']->set(new TemplatingHelper($app['router']->getGenerator()));
-		}
 
 		$app['controllerResolver'] = function() use ($app) {
 

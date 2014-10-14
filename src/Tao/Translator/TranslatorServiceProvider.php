@@ -40,11 +40,11 @@ class TranslatorServiceProvider implements ServiceProviderInterface
 				}
 			}
 
+			if ($app['templating.load_default_helpers']) {
+				$app['templating']->set(new TemplatingHelper($translator));
+			}
+
 			return $translator;
 		};
-
-		if ($app['templating.load_default_helpers']) {
-			$app['templating']->set(new TemplatingHelper($app['translator']));
-		}
 	}
 }
