@@ -80,8 +80,10 @@ return [
 	# Name of resource files
 	'routing.resource_name' => 'routes.yml',
 
+	# Controllers namespace (to avoid having to type it every route definition)
 	'routing.controllers_namespace' => null,
 
+	# Path to the router cache directory
 	'routing.cache_dir' => $this->appDir . '/Storage/Cache/Router',
 
 	'routing.router_class' => 'Symfony\Component\Routing\Router',
