@@ -61,7 +61,7 @@ class Controller
 	 *
 	 * @return RedirectResponse
 	 */
-	protected function redirectToRoute($route, array $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH, $status = 302)
+	protected function redirectToRoute($route, array $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH, $status = 302)
 	{
 		return $this->redirect($this->generateUrl($route, $parameters, $referenceType), $status);
 	}
