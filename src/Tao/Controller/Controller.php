@@ -34,9 +34,9 @@ class Controller
 	 *
 	 * @see UrlGeneratorInterface
 	 */
-	public function generateUrl($route, $parameters = [], $language = null, $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+	public function generateUrl($route, $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
 	{
-		return $this->app['router']->generate($route, $parameters, $language, $referenceType);
+		return $this->app['router']->generate($route, $parameters, $referenceType);
 	}
 
 	/**
@@ -61,9 +61,9 @@ class Controller
 	 *
 	 * @return RedirectResponse
 	 */
-	protected function redirectToRoute($route, array $parameters = array(), $status = 302)
+	protected function redirectToRoute($route, array $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH, $status = 302)
 	{
-		return $this->redirect($this->generateUrl($route, $parameters), $status);
+		return $this->redirect($this->generateUrl($route, $parameters, $referenceType), $status);
 	}
 
 	public function jsonResponse($data = null, $status = 200, array $headers = [])
