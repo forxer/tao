@@ -29,7 +29,7 @@ class Router extends Helper
 	 *
 	 * @see UrlGeneratorInterface
 	 */
-	public function generate($name, $parameters = array(), $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
+	public function generate($name, array $parameters = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
 	{
 		return $this->generator->generate($name, $parameters, $referenceType);
 	}

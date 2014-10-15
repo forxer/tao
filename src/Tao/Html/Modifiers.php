@@ -175,7 +175,7 @@ class Modifiers
 	public static function tidyUrl($string, $bKeepSlashes = true, $bKeepSpaces = false)
 	{
 		$string = strip_tags($string);
-		$string = str_replace(array(
+		$string = str_replace([
 			'?',
 			'&',
 			'#',
@@ -185,7 +185,7 @@ class Modifiers
 			'>',
 			'"',
 			'%'
-		), '', $string);
+		], '', $string);
 		$string = str_replace("'", ' ', $string);
 		$string = preg_replace('/[\s]+/u', ' ', trim($string));
 

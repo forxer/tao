@@ -18,7 +18,7 @@ class SimpleEscaper implements EscaperInterface
 	 *
 	 * @var array
 	 */
-	protected $supportedEncodings = array(
+	protected $supportedEncodings = [
 		'iso-8859-1',   'iso8859-1',    'iso-8859-5',   'iso8859-5',
 		'iso-8859-15',  'iso8859-15',   'utf-8',        'cp866',
 		'ibm866',       '866',          'cp1251',       'windows-1251',
@@ -28,7 +28,7 @@ class SimpleEscaper implements EscaperInterface
 		'big5-hkscs',   'shift_jis',    'sjis',         'sjis-win',
 		'cp932',        '932',          'euc-jp',       'eucjp',
 		'eucjp-win',    'macroman'
-	);
+	];
 
 	/**
 	 * Constructor: Single parameter allows setting of global encoding for use by
