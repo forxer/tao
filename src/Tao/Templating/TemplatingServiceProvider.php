@@ -36,7 +36,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 				$templating->set(new Breadcrumb());
 				$templating->set(new FormElements());
 				$templating->set(new Modifier());
-				$templating->set(new Router($app['router']->getGenerator()));
+				$templating->set(new Router($app['router']));
 				$templating->set(new SlotsHelper());
 				$templating->set(new TitleTag());
 			}
