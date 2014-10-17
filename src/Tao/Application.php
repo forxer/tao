@@ -17,12 +17,6 @@ use Whoops\Handler\PrettyPageHandler as WhoopsHandler;
 
 abstract class Application extends Container
 {
-	protected $appPath;
-
-	protected $startTime;
-
-	protected $config;
-
 	protected static $models;
 
 	/**
@@ -34,22 +28,17 @@ abstract class Application extends Container
 	 */
 	public function __construct($loader, array $config = [], $appPath = null)
 	{
+		# Utilities
+		$this->utilities = new ApplicationUtilities($this);
+
 		# Register start time
-		$this->startTime = microtime(true);
+		$this->utilities->setStartTime();
 
 		# Store application path
-		$this->appPath = $appPath;
-
-		# Merge config with default values
-		$config = $config + $this->getBaseConfiguration();
-
-		# If debug mode, store config data for debug purpose
-		if (!empty($config['debug'])) {
-			$this->config = $config;
-		}
+		$this->utilities->setApplicationPath($appPath);
 
 		# Call container constructor
-		parent::__construct($config);
+		parent::__construct($this->utilities->setConfiguration($config));
 
 		# Register core services providers
 		$this->register(new HttpServiceProvider());
@@ -126,44 +115,5 @@ abstract class Application extends Container
 		}
 
 		return static::$models[$sModel];
-	}
-
-	/**
-	 * Return configuration data in debug mode.
-	 *
-	 * @return array
-	 */
-	public function getConfig()
-	{
-		return $this->config;
-	}
-
-	/**
-	 * Return the application execution time.
-	 *
-	 * @return string
-	 */
-	public function getExecutionTime()
-	{
-		return microtime(true) - $this->startTime;
-	}
-
-	/**
-	 * Return the application memory usage.
-	 *
-	 * @return string
-	 */
-	public function getMemoryUsage()
-	{
-		$memoryUsage = memory_get_usage();
-
-		$unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-
-		return @round($memoryUsage/pow(1024, ($i=floor(log($memoryUsage, 1024))) ), 2).' '.$unit[$i];
-	}
-
-	private function getBaseConfiguration()
-	{
-		return require __DIR__ . '/BaseConfiguration.php';
 	}
 }

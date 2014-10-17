@@ -59,14 +59,14 @@ return [
 	# ----------------------------------------------------------
 
 	'logger.class' => 'Monolog\Logger',
-	'logger.dir' => $this->appPath . '/Storage/Logs',
+	'logger.dir' => $this->utilities->getApplicationPath() . '/Storage/Logs',
 
 
 	# Minify
 	# ----------------------------------------------------------
 
 	// not implemented
-	//'minify.cache_dir' => $this->appPath . '/Storage/Cache/Minify',
+	//'minify.cache_dir' => $this->utilities->getApplicationPath() . '/Storage/Cache/Minify',
 
 
 	# Routing
@@ -74,7 +74,7 @@ return [
 
 	# List of directories to search resources
 	'routing.resources_dirs' => [
-		$this->appPath . '/Config'
+		$this->utilities->getApplicationPath() . '/Config'
 	],
 
 	# Name of resource files
@@ -84,7 +84,7 @@ return [
 	'routing.controllers_namespace' => null,
 
 	# Path to the router cache directory
-	'routing.cache_dir' => $this->appPath . '/Storage/Cache/Router',
+	'routing.cache_dir' => $this->utilities->getApplicationPath() . '/Storage/Cache/Router',
 
 	'routing.router_class' => 'Symfony\Component\Routing\Router',
 	'routing.loader_class' => 'Symfony\Component\Routing\Loader\YamlFileLoader',
@@ -123,9 +123,9 @@ return [
 
 	'translator.fallback' => 'fr',
 
-	'translator.dir' => $this->appPath . '/Translations',
+	'translator.dir' => $this->utilities->getApplicationPath() . '/Translations',
 
-	'translator.cache_dir' => $this->appPath . '/Storage/Cache/Translations',
+	'translator.cache_dir' => $this->utilities->getApplicationPath() . '/Storage/Cache/Translations',
 
 	'translator.use_default_php_loader' => true,
 
@@ -136,7 +136,7 @@ return [
 	# Templating
 	# ----------------------------------------------------------
 
-	'templating.path.patterns' => $this->appPath . '/Views/%name%.php',
+	'templating.path.patterns' => $this->utilities->getApplicationPath() . '/Views/%name%.php',
 
 	'templating.class' => 'Tao\Templating\Templating',
 	'templating.escaper_class' => 'Tao\Templating\Escaper\ZendEscaper',
