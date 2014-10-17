@@ -17,6 +17,8 @@ use Whoops\Handler\PrettyPageHandler as WhoopsHandler;
 
 abstract class Application extends Container
 {
+	public $utilities;
+
 	protected static $models;
 
 	/**
@@ -32,7 +34,7 @@ abstract class Application extends Container
 		$this->utilities = new ApplicationUtilities($this);
 
 		# Register start time
-		$this->utilities->setStartTime();
+		$this->utilities->registerStartTime();
 
 		# Store application path
 		$this->utilities->setApplicationPath($appPath);

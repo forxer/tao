@@ -94,7 +94,7 @@ class ApplicationUtilities
 			$this->config = $config;
 		}
 
-		return $config
+		return $config;
 	}
 
 	/**
