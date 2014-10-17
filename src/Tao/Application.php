@@ -21,6 +21,8 @@ abstract class Application extends Container
 
 	protected $startTime;
 
+	protected $config;
+
 	protected static $models;
 
 	/**
@@ -35,6 +37,11 @@ abstract class Application extends Container
 		$this->startTime = microtime(true);
 
 		$this->appDir = $appDir;
+
+		# If debug mode, store config data for debug purpose
+		if (!empty($config['debug'])) {
+			$this->config = $config;
+		}
 
 		# Call container constructor
 		parent::__construct($config + $this->getBaseConfiguration());
@@ -114,6 +121,16 @@ abstract class Application extends Container
 		}
 
 		return static::$models[$sModel];
+	}
+
+	/**
+	 * Return configuration data in debug mode.
+	 *
+	 * @return array
+	 */
+	public function getConfig()
+	{
+		return $this->config;
 	}
 
 	/**
