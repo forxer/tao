@@ -17,7 +17,7 @@ use Whoops\Handler\PrettyPageHandler as WhoopsHandler;
 
 abstract class Application extends Container
 {
-	protected $appDir;
+	protected $appPath;
 
 	protected $startTime;
 
@@ -30,13 +30,18 @@ abstract class Application extends Container
 	 *
 	 * @param object $loader The autoloader instance.
 	 * @param array $config The configuration of the application.
+	 * @param string $appPath The application absolute path.
 	 */
-	public function __construct($loader, array $config = [], $appDir = null)
+	public function __construct($loader, array $config = [], $appPath = null)
 	{
 		# Register start time
 		$this->startTime = microtime(true);
 
-		$this->appDir = $appDir;
+		# Store application path
+		$this->appPath = $appPath;
+
+		# Merge config with default values
+		$config = $config + $this->getBaseConfiguration();
 
 		# If debug mode, store config data for debug purpose
 		if (!empty($config['debug'])) {
@@ -44,7 +49,7 @@ abstract class Application extends Container
 		}
 
 		# Call container constructor
-		parent::__construct($config + $this->getBaseConfiguration());
+		parent::__construct($config);
 
 		# Register core services providers
 		$this->register(new HttpServiceProvider());
