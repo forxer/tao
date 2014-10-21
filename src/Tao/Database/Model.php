@@ -31,11 +31,18 @@ abstract class Model
 
 	abstract function init();
 
-	public function has($primaryKey)
+	public function has($primaryKey, $column = null)
 	{
+		if (null === $column) {
+			$column = $this->getPrimaryKey();
+		}
+
 		return (boolean)$this->app['db']->fetchColumn(
-			'SELECT COUNT('.$this->getPrimaryKey().') FROM ' . $this->getTable() . ' WHERE '.$this->getPrimaryKey().' = ?',
-			[$primaryKey]
+			'SELECT COUNT(:column) FROM ' . $this->getTable() . ' WHERE '.$this->getPrimaryKey().' = :pk',
+			[
+				'column' => $column,
+				'pk' => $primaryKey
+			]
 		);
 	}
 
