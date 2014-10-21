@@ -11,13 +11,10 @@ class Modifiers
 	 */
 	public static function linebreaks($string)
 	{
-		return str_replace([
-			"\r\n",
-			"\r"
-		], [
-			"\n",
-			"\n"
-		], $string);
+		return str_replace(
+		[ "\r\n", "\r" ],
+		[ "\n", "\n" ],
+		$string);
 	}
 
 	/**
@@ -220,7 +217,6 @@ class Modifiers
 	 */
 	public static function splitWords($string)
 	{
-		//		return mb_split("\s", $string);
 		$non_word = '\x{0000}-\x{002F}\x{003A}-\x{0040}\x{005b}-\x{0060}\x{007B}-\x{007E}\x{00A0}-\x{00BF}\s';
 		if (preg_match_all('/([^' . $non_word . ']{2,})/msu', strip_tags($string), $match))
 		{
