@@ -41,12 +41,6 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 				$templating->set(new TitleTag());
 			}
 
-			/*
-			 * @TODO this is realy a bad practise,
-			 * but this is realy usefull for the moment...
-			 *
-			 * __should be removed in futur__
-			 */
 			$templating->addGlobal('app', $app);
 
 			return $templating;

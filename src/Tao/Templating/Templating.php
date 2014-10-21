@@ -50,7 +50,7 @@ class Templating extends PhpEngine
 	/**
 	 * Retourne le HTML de la pagination.
 	 *
-	 * @todo Ne devrait pas se trouver ici, ou au moins devrait être découplé de TwitterBootstrap3View,
+	 * Note : Ne devrait pas se trouver ici, ou au moins devrait être découplé de TwitterBootstrap3View,
 	 * mais en attendant ça fait le job...
 	 *
 	 * @param Pagerfanta\Pagerfanta $pager
