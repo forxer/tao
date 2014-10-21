@@ -55,7 +55,7 @@ class ApplicationUtilities
 
 		$unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
-		return @round($memoryUsage/pow(1024, ($i=floor(log($memoryUsage, 1024))) ), 2).' '.$unit[$i];
+		return round($memoryUsage/pow(1024, ($i=floor(log($memoryUsage, 1024))) ), 2).' '.$unit[$i];
 	}
 
 	/**
