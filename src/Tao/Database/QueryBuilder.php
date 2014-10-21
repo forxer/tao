@@ -13,7 +13,7 @@ class QueryBuilder extends BaseQueryBuilder
 	{
 		if (null === $callback)
 		{
-			$callback = function ($queryBuilder) use($model) {
+			$callback = function(QueryBuilder $queryBuilder) use($model) {
 				$queryBuilder
 					->select('COUNT(DISTINCT ' . $model->getAlias() . '.' . $model->getPrimaryKey() . ') AS total_results')
 					->setMaxResults(1);
