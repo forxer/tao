@@ -5,8 +5,6 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\Loader\PhpFileLoader;
-use Symfony\Component\Translation\MessageSelector;
-use Symfony\Component\Translation\Translator;
 
 class TranslatorServiceProvider implements ServiceProviderInterface
 {

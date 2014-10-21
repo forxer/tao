@@ -3,7 +3,6 @@ namespace Tao\Http;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 class HttpServiceProvider implements ServiceProviderInterface
 {
