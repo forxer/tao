@@ -8,13 +8,19 @@ class RouterServiceProvider implements ServiceProviderInterface
 {
 	public function register(Container $app)
 	{
+		$app['requestContext'] = function() use ($app)  {
+
+			$requestContext = new $app['routing.request_context_class'];
+			$requestContext->fromRequest($app['request']);
+
+			return $requestContext;
+		};
+
 		$app['router'] = function() use ($app)  {
 
 			$loader = new $app['routing.loader_class'](
 				new $app['routing.locator_class']($app['routing.resources_dirs'])
 			);
-
-			$requestContext = (new $app['routing.request_context_class'])->fromRequest($app['request']);
 
 			$router =  new $app['routing.router_class'](
 				$loader,
@@ -36,7 +42,7 @@ class RouterServiceProvider implements ServiceProviderInterface
 					'resource_type' => $app['routing.resource_type'],
 					'strict_requirements' => $app['routing.strict_requirements']
 				],
-				$requestContext
+				$app['requestContext']
 			);
 
 			return $router;
