@@ -1,8 +1,6 @@
 <?php
 namespace Tao\Messages;
 
-use Tao\Application;
-
 /**
  * Convenient merged messages bags.
  * Merge Instant messages, Flash messages and Persistent messages.
@@ -10,74 +8,78 @@ use Tao\Application;
  */
 class Messages
 {
-	protected $app;
+	protected $instant;
+	protected $flash;
+	protected $persistent;
 
-	public function __construct(Application $app)
+	public function __construct(MessagesInterface $instant, MessagesInterface $flash, MessagesInterface $persistent)
 	{
-		$this->app = $app;
+		$this->instant = $instant;
+		$this->flash = $flash;
+		$this->persistent = $persistent;
 	}
 
 	public function getInfo()
 	{
 		return array_merge(
-			$this->app['instantMessages']->getInfo(),
-			$this->app['flashMessages']->getInfo(),
-			$this->app['persistentMessages']->getInfo()
+			$this->instant->getInfo(),
+			$this->flash->getInfo(),
+			$this->persistent->getInfo()
 		);
 	}
 
 	public function hasInfo()
 	{
-		return $this->app['instantMessages']->hasInfo()
-			|| $this->app['flashMessages']->hasInfo()
-			|| $this->app['persistentMessages']->hasInfo();
+		return $this->instant->hasInfo()
+			|| $this->flash->hasInfo()
+			|| $this->persistent->hasInfo();
 	}
 
 	public function getSuccess()
 	{
 		return array_merge(
-			$this->app['instantMessages']->getSuccess(),
-			$this->app['flashMessages']->getSuccess(),
-			$this->app['persistentMessages']->getSuccess()
+			$this->instant->getSuccess(),
+			$this->flash->getSuccess(),
+			$this->persistent->getSuccess()
 		);
 	}
 
 	public function hasSuccess()
 	{
-		return $this->app['instantMessages']->hasSuccess()
-			|| $this->app['flashMessages']->hasSuccess()
-			|| $this->app['persistentMessages']->hasSuccess();
+		return $this->instant->hasSuccess()
+			|| $this->flash->hasSuccess()
+			|| $this->persistent->hasSuccess();
 	}
 
 	public function getWarning()
 	{
 		return array_merge(
-			$this->app['instantMessages']->getWarning(),
-			$this->app['flashMessages']->getWarning(),
-			$this->app['persistentMessages']->getWarning()
+			$this->instant->getWarning(),
+			$this->flash->getWarning(),
+			$this->persistent->getWarning()
 		);
 	}
 
 	public function hasWarning()
 	{
-		return $this->app['instantMessages']->hasWarning()
-			|| $this->app['flashMessages']->hasWarning()
-			|| $this->app['persistentMessages']->hasWarning();
+		return $this->instant->hasWarning()
+			|| $this->flash->hasWarning()
+			|| $this->persistent->hasWarning();
 	}
 
 	public function getError()
 	{
 		return array_merge(
-			$this->app['instantMessages']->getError(),
-			$this->app['flashMessages']->getError(),
-			$this->app['persistentMessages']->getError()
+			$this->instant->getError(),
+			$this->flash->getError(),
+			$this->persistent->getError()
 		);
 	}
 
 	public function hasError()
 	{
-		return $this->app['instantMessages']->hasError()
-			|| $this->app['flashMessages']->hasError()
-			|| $this->app['persistentMessages']->hasError();
+		return $this->instant->hasError()
+			|| $this->flash->hasError()
+			|| $this->persistent->hasError();
 	}
 }

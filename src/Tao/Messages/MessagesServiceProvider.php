@@ -21,7 +21,7 @@ class MessagesServiceProvider implements ServiceProviderInterface
 		};
 
 		$app['messages'] = function($app) {
-			return new Messages($app);
+			return new Messages($app['instantMessages'], $app['flashMessages'], $app['persistentMessages']);
 		};
 	}
 }
