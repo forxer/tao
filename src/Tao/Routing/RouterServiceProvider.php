@@ -16,14 +16,20 @@ class RouterServiceProvider implements ServiceProviderInterface
 			return $requestContext;
 		};
 
+		$app['routing.locator'] = function() use ($app)  {
+			return new $app['routing.locator_class']($app['routing.resources_dirs']);
+		};
+
+		$app['route.loader'] = function() use ($app)  {
+			return new $app['routing.loader_class'](
+				$app['routing.locator']
+			);
+		};
+
 		$app['router'] = function() use ($app)  {
 
-			$loader = new $app['routing.loader_class'](
-				new $app['routing.locator_class']($app['routing.resources_dirs'])
-			);
-
 			$router =  new $app['routing.router_class'](
-				$loader,
+				$app['route.loader'],
 				$app['routing.resource_name'],
 				[
 					'debug' 	=> $app['debug'],

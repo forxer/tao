@@ -10,11 +10,15 @@ class TranslatorServiceProvider implements ServiceProviderInterface
 {
 	public function register(Container $app)
 	{
+		$app['translator.messages.selector'] = function() use ($app)  {
+			return new $app['translator.messages_selector_class'];
+		};
+
 		$app['translator'] = function() use ($app)  {
 
 			$translator = new $app['translator.class'](
 				$app['session']->getLanguage(),
-				new $app['translator.messages_selector_class'],
+				$app['translator.messages.selector'],
 				$app['translator.cache_dir'],
 				$app['debug']
 			);

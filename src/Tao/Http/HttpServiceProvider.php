@@ -12,10 +12,12 @@ class HttpServiceProvider implements ServiceProviderInterface
 			return $app['http.request_class']::createFromGlobals();
 		};
 
-		$app['session'] = function() use ($app) {
-			return new $app['session.class'](
-				$app,
-				new $app['session.storage_class'](
+		$app['session.handler'] = function() use ($app) {
+			return new $app['session.handler_class']();
+		};
+
+		$app['session.storage'] = function() use ($app) {
+			return new $app['session.storage_class'](
 					[
 						'cookie_lifetime' 	=> 0,
 						'cookie_path' 		=> $app['app_url'],
@@ -24,8 +26,14 @@ class HttpServiceProvider implements ServiceProviderInterface
 						'use_trans_sid' 	=> false,
 						'use_only_cookies' 	=> true
 					],
-					new $app['session.handler_class']()
-				),
+					$app['session.handler']
+				);
+		};
+
+		$app['session'] = function() use ($app) {
+			return new $app['session.class'](
+				$app,
+				$app['session.storage'],
 				null,
 				$app['persistentMessages'],
 				$app['flashMessages'],

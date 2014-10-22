@@ -15,7 +15,7 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 {
 	public function register(Container $app)
 	{
-		$app['templating'] = function() use ($app)  {
+		$app['templating.templates.loader'] = function() use ($app)  {
 
 			$loader = new $app['templating.loader_class']([ $app['templating.path.patterns'] ]);
 
@@ -23,11 +23,24 @@ class TemplatingServiceProvider implements ServiceProviderInterface
 				$loader->setLogger($app['logger']);
 			}
 
+			return $loader;
+		};
+
+		$app['templating.templates.name.parser'] = function() use ($app)  {
+			return new $app['templating.name_parser_class'];
+		};
+
+		$app['templating.escaper'] = function() use ($app)  {
+			return new $app['templating.escaper_class']('utf-8');
+		};
+
+		$app['templating'] = function() use ($app)  {
+
 			$templating = new $app['templating.class'](
 				$app,
-				new $app['templating.name_parser_class'],
-				$loader,
-				new $app['templating.escaper_class']('utf-8')
+				$app['templating.templates.name.parser'],
+				$app['templating.templates.loader'],
+				$app['templating.escaper']
 			);
 
 			if ($app['templating.load_default_helpers'])
