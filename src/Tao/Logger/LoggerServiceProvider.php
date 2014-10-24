@@ -17,7 +17,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
 	public function register(Container $app)
 	{
 		$app['logger'] = function() use ($app) {
-			return new $app['logger.class'](
+			return new $app['class']['logger'](
 				'app_logger',
 				[
 					new FirePHPHandler()
@@ -32,7 +32,7 @@ class LoggerServiceProvider implements ServiceProviderInterface
 		};
 
 		$app['phpLogger'] = function() use ($app) {
-			return new $app['logger.class'](
+			return new $app['class']['logger'](
 				'php_error',
 				[
 					new FingersCrossedHandler(

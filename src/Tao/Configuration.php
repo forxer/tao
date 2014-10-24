@@ -41,24 +41,12 @@ return [
 		'charset' => ''
 	],
 
-	'database.config_class' => 'Doctrine\DBAL\Configuration',
-	'database.logger_class' => 'Doctrine\DBAL\Logging\DebugStack',
-	'database.driver_manager_class' => 'Doctrine\DBAL\DriverManager',
-	'database.query_builder_class' => 'Tao\Database\QueryBuilder',
-
 	'database.models_namespace' => 'Application\Models',
-
-
-	# Http
-	# ----------------------------------------------------------
-
-	'http.request_class' => 'Symfony\Component\HttpFoundation\Request',
 
 
 	# Logger
 	# ----------------------------------------------------------
 
-	'logger.class' => 'Monolog\Logger',
 	'logger.dir' => $this->getApplicationPath() . '/Storage/Logs',
 
 
@@ -86,31 +74,8 @@ return [
 	# Path to the router cache directory
 	'routing.cache_dir' => $this->getApplicationPath() . '/Storage/Cache/Router',
 
-	'routing.router_class' => 'Symfony\Component\Routing\Router',
-	'routing.loader_class' => 'Symfony\Component\Routing\Loader\YamlFileLoader',
-	'routing.locator_class' => 'Symfony\Component\Config\FileLocator',
-	'routing.request_context_class' => 'Symfony\Component\Routing\RequestContext',
-
-	'routing.generator_class' => 'Symfony\Component\Routing\Generator\UrlGenerator',
-	'routing.generator_base_class' => 'Symfony\Component\Routing\Generator\UrlGenerator',
-	'routing.generator_dumper_class' => 'Symfony\Component\Routing\Generator\Dumper\PhpGeneratorDumper',
-	'routing.generator_cache_class' => null,
-
-	'routing.matcher_class' => 'Symfony\Component\Routing\Matcher\UrlMatcher',
-	'routing.matcher_base_class' => 'Symfony\Component\Routing\Matcher\UrlMatcher',
-	'routing.matcher_dumper_class' => 'Symfony\Component\Routing\Matcher\Dumper\PhpMatcherDumper',
-	'routing.matcher_cache_class' => null,
-
 	'routing.resource_type' => null,
 	'routing.strict_requirements' => true,
-
-
-	# Session
-	# ----------------------------------------------------------
-
-	'session.class' => 'Tao\Http\Session',
-	'session.storage_class' => 'Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage',
-	'session.handler_class' => '\SessionHandler',
 
 
 	# Translator
@@ -129,19 +94,11 @@ return [
 
 	'translator.use_default_php_loader' => true,
 
-	'translator.class' => 'Symfony\Component\Translation\Translator',
-	'translator.messages_selector_class' => 'Symfony\Component\Translation\MessageSelector',
-
 
 	# Templating
 	# ----------------------------------------------------------
 
 	'templating.path.patterns' => $this->getApplicationPath() . '/Views/%name%.php',
-
-	'templating.class' => 'Tao\Templating\Templating',
-	'templating.escaper_class' => 'Tao\Templating\Escaper\ZendEscaper',
-	'templating.loader_class' => 'Symfony\Component\Templating\Loader\FilesystemLoader',
-	'templating.name_parser_class' => 'Symfony\Component\Templating\TemplateNameParser',
 
 	'templating.load_default_helpers' => true,
 

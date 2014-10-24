@@ -9,7 +9,7 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 	public function register(Container $app)
 	{
 		$app['db.config'] = function() use ($app) {
-			$config = new $app['database.config_class']();
+			$config = new $app['class']['database.config']();
 
 			if ($app['debug']) {
 				$config->setSQLLogger($app['db.logger']);
@@ -19,15 +19,15 @@ class DatabaseServiceProvider implements ServiceProviderInterface
 		};
 
 		$app['db.logger'] = function() use ($app) {
-			return new $app['database.logger_class']();
+			return new $app['class']['database.logger']();
 		};
 
 		$app['db'] = function() use ($app) {
-			return $app['database.driver_manager_class']::getConnection($app['database.connection'], $app['db.config']);
+			return $app['class']['database.driver_manager']::getConnection($app['database.connection'], $app['db.config']);
 		};
 
 		$app['qb'] = $app->factory(function ($app) {
-			return new $app['database.query_builder_class']($app['db']);
+			return new $app['class']['database.query_builder']($app['db']);
 		});
 	}
 }

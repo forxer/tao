@@ -10,40 +10,40 @@ class RouterServiceProvider implements ServiceProviderInterface
 	{
 		$app['requestContext'] = function() use ($app)  {
 
-			$requestContext = new $app['routing.request_context_class'];
+			$requestContext = new $app['class']['routing.request_context'];
 			$requestContext->fromRequest($app['request']);
 
 			return $requestContext;
 		};
 
 		$app['routing.locator'] = function() use ($app)  {
-			return new $app['routing.locator_class']($app['routing.resources_dirs']);
+			return new $app['class']['routing.locator']($app['routing.resources_dirs']);
 		};
 
 		$app['route.loader'] = function() use ($app)  {
-			return new $app['routing.loader_class'](
+			return new $app['class']['routing.loader'](
 				$app['routing.locator']
 			);
 		};
 
 		$app['router'] = function() use ($app)  {
 
-			$router =  new $app['routing.router_class'](
+			$router =  new $app['class']['routing.router'](
 				$app['route.loader'],
 				$app['routing.resource_name'],
 				[
 					'debug' 	=> $app['debug'],
 					'cache_dir' => $app['routing.cache_dir'],
 
-					'generator_class' => $app['routing.generator_class'],
-					'generator_base_class' => $app['routing.generator_base_class'],
-					'generator_dumper_class' => $app['routing.generator_dumper_class'],
-					'generator_cache_class' => $app['routing.generator_cache_class'] ?: $app['app_id'] . 'UrlGenerator',
+					'generator_class' => $app['class']['routing.generator'],
+					'generator_base_class' => $app['class']['routing.generator_base'],
+					'generator_dumper_class' => $app['class']['routing.generator_dumper'],
+					'generator_cache_class' => $app['class']['routing.generator_cache'] ?: $app['app_id'] . 'UrlGenerator',
 
-					'matcher_class' => $app['routing.matcher_class'],
-					'matcher_base_class' => $app['routing.matcher_base_class'],
-					'matcher_dumper_class' => $app['routing.matcher_dumper_class'],
-					'matcher_cache_class' => $app['routing.matcher_cache_class'] ?: $app['app_id'] . 'UrlMatcher',
+					'matcher_class' => $app['class']['routing.matcher'],
+					'matcher_base_class' => $app['class']['routing.matcher_base'],
+					'matcher_dumper_class' => $app['class']['routing.matcher_dumper'],
+					'matcher_cache_class' => $app['class']['routing.matcher_cache'] ?: $app['app_id'] . 'UrlMatcher',
 
 					'resource_type' => $app['routing.resource_type'],
 					'strict_requirements' => $app['routing.strict_requirements']

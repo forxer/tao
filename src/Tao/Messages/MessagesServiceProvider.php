@@ -8,20 +8,20 @@ class MessagesServiceProvider implements ServiceProviderInterface
 {
 	public function register(Container $app)
 	{
-		$app['instantMessages'] = function() {
-			return new InstantMessages();
+		$app['instantMessages'] = function() use ($app) {
+			return new $app['class']['messages.instant']();
 		};
 
-		$app['flashMessages'] = function() {
-			return new FlashMessages('flashMessages');
+		$app['flashMessages'] = function() use ($app) {
+			return new $app['class']['messages.flash']('flashMessages');
 		};
 
-		$app['persistentMessages'] = function() {
-			return new PersistentMessages('persistentMessages');
+		$app['persistentMessages'] = function() use ($app)  {
+			return new $app['class']['messages.persistent']('persistentMessages');
 		};
 
-		$app['messages'] = function($app) {
-			return new Messages($app['instantMessages'], $app['flashMessages'], $app['persistentMessages']);
+		$app['messages'] = function() use ($app) {
+			return new $app['class']['messages']($app['instantMessages'], $app['flashMessages'], $app['persistentMessages']);
 		};
 	}
 }

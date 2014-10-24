@@ -19,6 +19,8 @@ abstract class Application extends Container
 {
 	public $utilities;
 
+	public $class;
+
 	protected static $models;
 
 	/**
@@ -28,16 +30,19 @@ abstract class Application extends Container
 	 * @param array $config The configuration of the application.
 	 * @param string $appPath The application absolute path.
 	 */
-	public function __construct($loader, array $config = [], $appPath = null)
+	public function __construct($loader, array $config = [], $appPath = null, array $classMap = [])
 	{
 		# Utilities
-		$this->utilities = new ApplicationUtilities($this);
+		$this->utilities = new Utilities($this);
 
 		# Register start time
 		$this->utilities->registerStartTime();
 
 		# Store application path
 		$this->utilities->setApplicationPath($appPath);
+
+		# Store classes map
+		$this['class'] = $this->utilities->setClassMap($classMap);
 
 		# Call container constructor
 		parent::__construct($this->utilities->setConfiguration($config));
