@@ -74,6 +74,9 @@ abstract class Application extends Container
 		else {
 			ErrorHandler::register($this['phpLogger']);
 		}
+
+		# Only enable Kint in debug mode
+		\Kint::enabled($this['debug']);
 	}
 
 	/**
