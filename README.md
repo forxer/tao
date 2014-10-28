@@ -1,3 +1,7 @@
+[![Latest Stable Version](https://poser.pugx.org/forxer/tao/v/stable.svg)](https://packagist.org/packages/forxer/tao)
+[![Total Downloads](https://poser.pugx.org/forxer/tao/downloads.svg)](https://packagist.org/packages/forxer/tao)
+[![License](https://poser.pugx.org/forxer/tao/license.svg)](https://packagist.org/packages/forxer/tao)
+
 Tao
 ===
 
