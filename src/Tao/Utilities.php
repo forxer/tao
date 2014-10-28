@@ -187,17 +187,17 @@ class Utilities
 	}
 
 	/**
-	 * Return application class map.
+	 * Set and return application classes map.
 	 *
 	 * @param array $config
 	 * @return array
 	 */
-	public function setClassMap(array $classMap = [])
+	public function setClassesMap(array $classesMap = [])
 	{
 		# Merge given class map with default values
-		$classMap = $classMap + $this->getDefaultClassMap();
+		$classesMap = $classesMap + $this->getDefaultClassesMap();
 
-		return $classMap;
+		return $classesMap;
 	}
 
 	/**
@@ -205,8 +205,8 @@ class Utilities
 	 *
 	 * @return array
 	 */
-	protected function getDefaultClassMap()
+	protected function getDefaultClassesMap()
 	{
-		return require __DIR__ . '/ClassMap.php';
+		return require __DIR__ . '/ClassesMap.php';
 	}
 }

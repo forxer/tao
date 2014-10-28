@@ -27,10 +27,11 @@ abstract class Application extends Container
 	 * Application constructor.
 	 *
 	 * @param object $loader The autoloader instance.
-	 * @param array $config The configuration of the application.
+	 * @param array $config The custom configuration of the application.
 	 * @param string $appPath The application absolute path.
+	 * @param array $classesMap The custom classes map of the application.
 	 */
-	public function __construct($loader, array $config = [], $appPath = null, array $classMap = [])
+	public function __construct($loader, array $config = [], $appPath = null, array $classesMap = [])
 	{
 		# Utilities
 		$this->utilities = new Utilities($this);
@@ -42,7 +43,7 @@ abstract class Application extends Container
 		$this->utilities->setApplicationPath($appPath);
 
 		# Store classes map
-		$this['class'] = $this->utilities->setClassMap($classMap);
+		$this['class'] = $this->utilities->setClassesMap($classesMap);
 
 		# Call container constructor
 		parent::__construct($this->utilities->setConfiguration($config));
