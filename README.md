@@ -13,7 +13,7 @@ Tao est une proposition d'architecture pour utiliser un ensemble de bibliothèqu
 
 Pour voir rapidement comment mettre en oeuvre Tao, je vous conseil vivement de regarder au projet [Kalaho](https://github.com/forxer/kalaho) qui est un exemple d'implémentation de Tao.
 
-Aussi, vous serez sans doute intéressés par le [Tutoriel pas à pas](https://github.com/forxer/tao-tuto/wiki)
+Aussi, vous serez sans doute intéressés par le [Tutoriel pas à pas](http://forxer.gitbooks.io/tutoriel-tao/)
 
 ## English
 
