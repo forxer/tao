@@ -5,7 +5,7 @@
 Tao
 ===
 
-_Tools in PHP for Web Development, based on famous libraries._
+## Français
 
 Après avoir copié/collé des fichiers dans trois projets web différents, je me suis dit qu'il était temps de mutualiser, versionner et distribuer ces outils.
 
@@ -14,3 +14,11 @@ Tao est une proposition d'architecture pour utiliser un ensemble de bibliothèqu
 Pour voir rapidement comment mettre en oeuvre Tao, je vous conseil vivement de regarder au projet [Kalaho](https://github.com/forxer/kalaho) qui est un exemple d'implémentation de Tao.
 
 Aussi, vous serez sans doute intéressés par le [Tutoriel pas à pas](https://github.com/forxer/tao-tuto/wiki)
+
+## English
+
+After  copy/paste files in three different web projects, I thought it was time to share, distribute and versioning tools.
+
+Tao is a proposed architecture to use a set of known and often used in my projects libraries.
+
+To quickly see how to implement Tao, I strongly advice to look [Kalaho](https://github.com/forxer/kalaho) project is an example implementation of Tao.
