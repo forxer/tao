@@ -1,5 +1,5 @@
 <?php
-namespace Tao\Logger;
+namespace Tao\Provider;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\FingersCrossedHandler;

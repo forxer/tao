@@ -1,5 +1,5 @@
 <?php
-namespace Tao\Messages;
+namespace Tao\Provider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

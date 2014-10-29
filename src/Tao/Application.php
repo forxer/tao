@@ -7,11 +7,11 @@ use Pimple\Container;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Tao\Controller\Controller;
-use Tao\Http\HttpServiceProvider;
-use Tao\Logger\LoggerServiceProvider;
-use Tao\Messages\MessagesServiceProvider;
-use Tao\Routing\RouterServiceProvider;
-use Tao\Templating\TemplatingServiceProvider;
+use Tao\Provider\HttpServiceProvider;
+use Tao\Provider\LoggerServiceProvider;
+use Tao\Provider\MessagesServiceProvider;
+use Tao\Provider\RouterServiceProvider;
+use Tao\Provider\TemplatingServiceProvider;
 use Whoops\Run as WhoopsRun;
 use Whoops\Handler\PrettyPageHandler as WhoopsHandler;
 

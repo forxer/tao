@@ -40,7 +40,10 @@ class Session extends BaseSession
 
 		parent::__construct($storage, $attributes, $flashes);
 
-		$autoExpireFlashBag = $autoExpireFlashBag ?: new AutoExpireFlashBag();
+		if (null === $autoExpireFlashBag) {
+			$autoExpireFlashBag = new AutoExpireFlashBag();
+		}
+
 		$this->autoExpireFlashName = $autoExpireFlashBag->getName();
 		$this->registerBag($autoExpireFlashBag);
 
