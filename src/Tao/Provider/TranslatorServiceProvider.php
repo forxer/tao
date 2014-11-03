@@ -3,7 +3,6 @@ namespace Tao\Provider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Translation\Loader\PhpFileLoader;
 
 class TranslatorServiceProvider implements ServiceProviderInterface
