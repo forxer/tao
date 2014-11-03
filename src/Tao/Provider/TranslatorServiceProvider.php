@@ -27,7 +27,7 @@ class TranslatorServiceProvider implements ServiceProviderInterface
 			{
 				$translator->addLoader('php', new PhpFileLoader());
 
-				$finder = (new Finder())
+				$finder = $app['finder']
 					->files()
 					->in($app['translator.dir'])
 					->name('*.php');
