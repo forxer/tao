@@ -35,6 +35,7 @@
 	},
 	"suggest" : {
 		"doctrine/dbal" : "Allows use of the database service in your application",
+		"symfony/finder" : "Allows use of the finder service in your application",
 		"symfony/translation" : "Allows use of the translantion service in your application"
 	},
 	"autoload" : {
