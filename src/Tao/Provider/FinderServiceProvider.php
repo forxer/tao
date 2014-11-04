@@ -9,7 +9,7 @@ class FinderServiceProvider implements ServiceProviderInterface
 {
 	public function register(Container $app)
 	{
-		$app['finder'] = $app->factory(function() use ($app) {
+		$app['finder'] = $app->factory(function() {
 			return new Finder();
 		});
 	}

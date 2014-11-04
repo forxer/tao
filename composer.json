@@ -26,6 +26,7 @@
 		"pimple/pimple" : "~3.0",
 		"raveren/kint" : "~0.9",
 		"symfony/config" : "~2.5",
+		"symfony/filesystem" : "~2.5",
 		"symfony/finder" : "~2.5",
 		"symfony/http-foundation" : "~2.5",
 		"symfony/routing" : "~2.5",
@@ -35,6 +36,7 @@
 	},
 	"suggest" : {
 		"doctrine/dbal" : "Allows use of the database service in your application",
+		"imagine/imagine": "Allows use of the Imagine service in your application",
 		"symfony/translation" : "Allows use of the translantion service in your application"
 	},
 	"autoload" : {
