@@ -34,7 +34,7 @@ trait SearchableControllerTrait
 	}
 
 	/**
-	 * Supprime les critère de recherche de la _SESSION
+	 * Supprime les critères de recherche de la _SESSION
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,21 @@ trait SearchableControllerTrait
 	}
 
 	/**
-	 * Initialise les critère de recherche en interne.
+	 * Retrouve les éventuels critères de recherche en _GET
+	 *
+	 * @return void
+	 */
+	protected function setSearchCriteriaFromQuery()
+	{
+		$this->initSearchCriteria();
+
+		foreach ($this->aCriteria as $sIndex => $mValue) {
+			$this->aCriteria[$sIndex] = $this->app['request']->query->get($sIndex, $mValue);
+		}
+	}
+
+	/**
+	 * Initialise les critères de recherche en interne.
 	 *
 	 * @return void
 	 */

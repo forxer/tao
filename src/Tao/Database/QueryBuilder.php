@@ -45,21 +45,28 @@ class QueryBuilder extends BaseQueryBuilder
 		return $this;
 	}
 
-	public function search(Model $model, array $query, $wordOperand = CompositeExpression::TYPE_AND, $globalOperand = CompositeExpression::TYPE_AND)
+	public function searchInColumn(Model $model, $column, array $query, $wordOperand = CompositeExpression::TYPE_AND, $globalOperand = CompositeExpression::TYPE_AND)
 	{
 		$exp = [];
 		foreach ($query as $word)
 		{
 			$exp[] = $this->expr()
-				->like(
-					$model->getAlias().'.'.$model->getSearchWordsColumn(),
-					$this->createNamedParameter('%'.$word.'%')
-				);
+			->like(
+				$model->getAlias().'.'.$column,
+				$this->createNamedParameter('%'.$word.'%')
+			);
 		}
 
 		$this->{$globalOperand === CompositeExpression::TYPE_AND ? 'andWhere' : 'orWhere'}(
 			new CompositeExpression(($wordOperand === CompositeExpression::TYPE_AND ? $wordOperand : CompositeExpression::TYPE_OR), $exp)
 		);
+
+		return $this;
+	}
+
+	public function search(Model $model, array $query, $wordOperand = CompositeExpression::TYPE_AND, $globalOperand = CompositeExpression::TYPE_AND)
+	{
+		$this->searchInColumn($model, $model->getSearchWordsColumn(), $query, $wordOperand, $globalOperand);
 
 		return $this;
 	}
