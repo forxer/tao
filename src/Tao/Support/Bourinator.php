@@ -11,22 +11,22 @@ namespace Tao\Support;
  */
 class Bourinator
 {
-	static protected $iStartTime;
+	protected $iStartTime;
 
 	const MAX_EXECUTION_TIME = 'max_execution_time';
 	const MEMORY_LIMIT = 'memory_limit';
 
-	public static function start()
+	public function start()
 	{
 		ini_set(self::MAX_EXECUTION_TIME, 0);
 		ini_set(self::MEMORY_LIMIT, -1);
 
-		self::$iStartTime = microtime(true);
+		$this->iStartTime = microtime(true);
 	}
 
-	public static function stop()
+	public function stop()
 	{
-		$exectime = microtime(true) - self::$iStartTime;
+		$exectime = microtime(true) - $this->iStartTime;
 
 		ini_restore(self::MAX_EXECUTION_TIME);
 		ini_restore(self::MEMORY_LIMIT);
