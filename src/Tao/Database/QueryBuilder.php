@@ -45,28 +45,47 @@ class QueryBuilder extends BaseQueryBuilder
 		return $this;
 	}
 
-	public function searchInColumn(Model $model, $column, array $query, $wordOperand = CompositeExpression::TYPE_AND, $globalOperand = CompositeExpression::TYPE_AND)
+	public function searchInColumn(Model $model, $column, array $query, array $params = [])
 	{
+		if (empty($params['wordOperand'])) {
+			$params['wordOperand'] = CompositeExpression::TYPE_AND;
+		}
+		elseif ($params['wordOperand'] !== CompositeExpression::TYPE_AND) {
+			$params['wordOperand'] = CompositeExpression::TYPE_OR;
+		}
+
+		if (empty($params['globalOperand'])) {
+			$params['globalOperand'] = CompositeExpression::TYPE_AND;
+		}
+
+		if (empty($params['searchPattern'])) {
+			$params['searchPattern'] = '%%%s%%';
+		}
+
 		$exp = [];
 		foreach ($query as $word)
 		{
 			$exp[] = $this->expr()
-			->like(
-				$model->getAlias().'.'.$column,
-				$this->createNamedParameter('%'.$word.'%')
-			);
+				->like(
+					$model->getAlias().'.'.$column,
+					$this->createNamedParameter(sprintf($params['searchPattern'], $word))
+				);
 		}
 
-		$this->{$globalOperand === CompositeExpression::TYPE_AND ? 'andWhere' : 'orWhere'}(
-			new CompositeExpression(($wordOperand === CompositeExpression::TYPE_AND ? $wordOperand : CompositeExpression::TYPE_OR), $exp)
+		$this->{$params['globalOperand'] === CompositeExpression::TYPE_AND ? 'andWhere' : 'orWhere'}(
+			new CompositeExpression($params['wordOperand'], $exp)
 		);
 
 		return $this;
 	}
 
-	public function search(Model $model, array $query, $wordOperand = CompositeExpression::TYPE_AND, $globalOperand = CompositeExpression::TYPE_AND)
+	public function search(Model $model, array $query, $wordOperand = CompositeExpression::TYPE_AND, $globalOperand = CompositeExpression::TYPE_AND, $searchPattern = '%%%s%%')
 	{
-		$this->searchInColumn($model, $model->getSearchWordsColumn(), $query, $wordOperand, $globalOperand);
+		$this->searchInColumn($model, $model->getSearchWordsColumn(), $query, [
+			'wordOperand' => $wordOperand,
+			'globalOperand' => $globalOperand,
+			'searchPattern' => $searchPattern
+		]);
 
 		return $this;
 	}
