@@ -64,7 +64,7 @@ class Templating extends PhpEngine
 				return $this->app['router']->generate($routeName, array_merge(['page' => $page], $routeAttributes));
 			},
 			[
-				'proximity' => 3,
+				'proximity' => 2,
 				'prev_message' => 'Précédente',
 				'next_message' => 'Suivante'
 			]
