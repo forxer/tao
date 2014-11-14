@@ -36,7 +36,7 @@
 	},
 	"suggest" : {
 		"doctrine/dbal" : "Allows use of the database service in your application",
-		"imagine/imagine": "Allows use of the Imagine service in your application",
+		"imagine/imagine" : "Allows use of the Imagine service in your application",
 		"symfony/translation" : "Allows use of the translantion service in your application"
 	},
 	"autoload" : {

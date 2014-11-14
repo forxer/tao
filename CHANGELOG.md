@@ -7,6 +7,8 @@ To get the diff between two versions, go to https://github.com/forxer/tao/compar
 
 - 0.8.2
 	- search tools enhancements
+	- add support service provider
+	- register more default services provider
 - 0.8.1
 	- add filesystem service provider
 	- add finder service provider

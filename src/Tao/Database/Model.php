@@ -241,7 +241,7 @@ abstract class Model
 		}
 	}
 
-	protected function setSearchIndexableData(array &$data)
+	protected function setSearchIndexableData(array &$data, $locale = 'fr')
 	{
 		if ($this->isSearchIndexable() && (!isset($data[$this->getSearchWordsColumn()]) || empty($data[$this->getSearchWordsColumn()])))
 		{
@@ -256,7 +256,7 @@ abstract class Model
 
 			$words = Modifiers::toIndexes($words);
 
-			$aStopWords = require $this->app['dir.tao'].'/Support/StopWords/fr.php';
+			$aStopWords = $this->app['stopwords']->get($locale);
 
 			$data[$this->getSearchWordsColumn()] = implode(' ', array_diff($words, $aStopWords));
 		}

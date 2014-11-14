@@ -7,11 +7,15 @@ use Pimple\Container;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Tao\Controller\Controller;
+use Tao\Provider\FilesystemServiceProvider;
+use Tao\Provider\FinderServiceProvider;
 use Tao\Provider\HttpServiceProvider;
 use Tao\Provider\LoggerServiceProvider;
 use Tao\Provider\MessagesServiceProvider;
 use Tao\Provider\RouterServiceProvider;
+use Tao\Provider\SupportServiceProvider;
 use Tao\Provider\TemplatingServiceProvider;
+use Tao\Provider\TriggersServiceProvider;
 use Whoops\Run as WhoopsRun;
 use Whoops\Handler\PrettyPageHandler as WhoopsHandler;
 
@@ -49,11 +53,15 @@ abstract class Application extends Container
 		parent::__construct($this->utilities->setConfiguration($config));
 
 		# Register core services providers
+		$this->register(new FilesystemServiceProvider());
+		$this->register(new FinderServiceProvider());
 		$this->register(new HttpServiceProvider());
 		$this->register(new LoggerServiceProvider());
 		$this->register(new MessagesServiceProvider());
 		$this->register(new RouterServiceProvider());
+		$this->register(new SupportServiceProvider());
 		$this->register(new TemplatingServiceProvider());
+		$this->register(new TriggersServiceProvider());
 
 		# Enables the portablity layer and configures PHP for UTF-8
 		Utf8Bootup::initAll();
