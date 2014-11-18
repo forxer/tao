@@ -20,6 +20,16 @@ trait SearchableControllerTrait
 	}
 
 	/**
+	 * Retourne les clés des critères de recherche.
+	 *
+	 * @return array
+	 */
+	static public function getCriteriaKeys()
+	{
+		return array_keys(static::getCriteriaList());
+	}
+
+	/**
 	 * Retrouve les éventuels critères de recherche en _SESSION
 	 *
 	 * @return void
