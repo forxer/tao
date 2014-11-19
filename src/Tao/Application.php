@@ -114,6 +114,10 @@ abstract class Application extends Container
 			$response->setContent($e->getMessage());
 		}
 
+		if ($this['x-frame-options']) {
+			$response->headers->set('x-frame-options', $this['x-frame-options']);
+		}
+
 		$response->prepare($this['request']);
 
 		$response->send();
