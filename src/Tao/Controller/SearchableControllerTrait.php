@@ -1,6 +1,7 @@
 <?php
 namespace Tao\Controller;
 
+use Tao\Database\QueryBuilder;
 use Tao\Html\Modifiers;
 
 trait SearchableControllerTrait
@@ -99,7 +100,7 @@ trait SearchableControllerTrait
         }
     }
 
-    protected function searchColumn($queryBuilder, $model, $from, $in = null, array $params = [])
+    protected function searchColumn(QueryBuilder $queryBuilder, $model, $from, $in = null, array $params = [])
     {
         if (null === $in) {
             $in = $from;

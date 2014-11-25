@@ -8,6 +8,15 @@ return [
 	# Enable/disable debug mode
 	'debug' => false,
 
+	# Value of X-Frame-Options Response Headers
+	# to prevent Clickjacking ; https://www.owasp.org/index.php/Clickjacking
+	#
+	# Should be :
+	# - DENY, which prevents any domain from framing the content.
+	# - SAMEORIGIN, which only allows the current site to frame the content.
+	# - or false to not use this header
+	'x-frame-options' => false,
+
 	# Relative path to the application URL from the hostname.
 	# The value should always begin and end with a slash.
 	#
