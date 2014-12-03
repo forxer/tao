@@ -6,259 +6,354 @@ use Tao\Html\Modifiers;
 
 abstract class Model
 {
-	protected $app;
+    protected $app;
 
-	protected $table;
+    protected $table;
 
-	protected $alias;
+    protected $alias;
 
-	protected $columns;
+    protected $columns;
 
-	protected $primaryKey = 'id';
+    protected $primaryKey = 'id';
 
-	protected $foreignKeys = [];
+    protected $foreignKeys = [];
 
-	protected $searchWordsColumn;
+    protected $searchWordsColumn;
 
-	protected $searchIndexableColumns = [];
+    protected $searchIndexableColumns = [];
 
-	public function __construct(Application $app)
-	{
-		$this->app = $app;
+    /**
+     * Constructor.
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
 
-		$this->init();
-	}
+        $this->init();
+    }
 
-	abstract function init();
+    /**
+     * Initialize the model.
+     */
+    abstract function init();
 
-	public function has($primaryKey, $column = null)
-	{
-		if (null === $column) {
-			$column = $this->getPrimaryKey();
-		}
+    /**
+     * Indicate if a given entry exists.
+     *
+     * @param mixed $primaryKey
+     * @param string $column
+     * @return boolean
+     */
+    public function has($primaryKey, $column = null)
+    {
+        if (null === $column) {
+            $column = $this->getPrimaryKey();
+        }
 
-		return (boolean)$this->app['db']->fetchColumn(
-			'SELECT COUNT(:column) FROM ' . $this->getTable() . ' WHERE '.$this->getPrimaryKey().' = :pk',
-			[
-				'column' => $column,
-				'pk' => $primaryKey
-			]
-		);
-	}
+        return (boolean)$this->app['db']->fetchColumn(
+            'SELECT COUNT(:column) FROM ' . $this->getTable() . ' WHERE '.$this->getPrimaryKey().' = :pk',
+            [
+                'column' => $column,
+                'pk' => $primaryKey
+            ]
+        );
+    }
 
-	public function insert(array $data)
-	{
-		$this->normalizeDataColumns($data);
+    /**
+     * Insert an entry.
+     *
+     * @param array $data
+     */
+    public function insert(array $data)
+    {
+        $this->normalizeDataColumns($data);
 
-		$this->setSearchIndexableData($data);
+        $this->setSearchIndexableData($data);
 
-		return $this->app['db']->insert($this->getTable(), $data);
-	}
+        return $this->app['db']->insert($this->getTable(), $data);
+    }
 
-	public function update(array $data, $primaryKey)
-	{
-		$this->normalizeDataColumns($data);
+    /**
+     * Update an entry.
+     *
+     * @param array $data
+     * @param mixed $primaryKey
+     */
+    public function update(array $data, $primaryKey)
+    {
+        $this->normalizeDataColumns($data);
 
-		$this->setSearchIndexableData($data);
+        $this->setSearchIndexableData($data);
 
-		return $this->app['db']->update($this->getTable(), $data, [ $this->getPrimaryKey() => $primaryKey]);
-	}
+        return $this->app['db']->update($this->getTable(), $data, [ $this->getPrimaryKey() => $primaryKey]);
+    }
 
-	public function reIndexAll($bOnlyEmpty = false)
-	{
-		$qb = $this->app['qb']
-			->selectSearchIndexable($this)
-		;
+    /**
+     * Delete an entry.
+     *
+     * @param mixed $primaryKey
+     */
+    public function delete($primaryKey)
+    {
+        return $this->app['db']->delete($this->getTable(), [ $this->getPrimaryKey() => $primaryKey]);
+    }
 
-		if ($bOnlyEmpty)
-		{
-			$qb->andWhere($this->getAlias().'.'.$this->getSearchWordsColumn().' IS NULL');
-			$qb->orWhere($this->getAlias().'.'.$this->getSearchWordsColumn().' = \'\'');
-		}
+    public function reIndexAll($bOnlyEmpty = false)
+    {
+        $qb = $this->app['qb']
+            ->selectSearchIndexable($this)
+        ;
 
-		$all = $qb->execute()->fetchAll();
+        if ($bOnlyEmpty)
+        {
+            $qb->andWhere($this->getAlias().'.'.$this->getSearchWordsColumn().' IS NULL');
+            $qb->orWhere($this->getAlias().'.'.$this->getSearchWordsColumn().' = \'\'');
+        }
 
-		foreach ($all as $columns) {
-			$this->update($columns, $columns[$this->getPrimaryKey()]);
-		}
+        $all = $qb->execute()->fetchAll();
 
-		return count($all);
-	}
+        foreach ($all as $columns) {
+            $this->update($columns, $columns[$this->getPrimaryKey()]);
+        }
 
-	public function autoJoin($model)
-	{
-		return;
-	}
+        return count($all);
+    }
 
-	public function setTable($sTableName)
-	{
-		$this->table = $sTableName;
-	}
+    public function autoJoin($model)
+    {
+        return;
+    }
 
-	public function getTable()
-	{
-		return $this->table;
-	}
+    /**
+     * Set the table name. Should be called by init() method.
+     *
+     * @param string $sTableName
+     */
+    public function setTable($sTableName)
+    {
+        $this->table = $sTableName;
+    }
 
-	public function setAlias($sTableAlias)
-	{
-		$this->alias = $sTableAlias;
-	}
+    /**
+     * Get the table name.
+     *
+     * @return string
+     */
+    public function getTable()
+    {
+        return $this->table;
+    }
 
-	public function getAlias()
-	{
-		return $this->alias;
-	}
+    /**
+     * Set the table alias. Should be called by init() method.
+     *
+     * @param string $sTableAlias
+     */
+    public function setAlias($sTableAlias)
+    {
+        $this->alias = $sTableAlias;
+    }
 
-	public function setColumns(array $aColumns)
-	{
-		$this->columns = $aColumns;
-	}
+    /**
+     * Get the table alias.
+     *
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
 
-	public function getColumns($bWithoutForeignKey = true, $bAliased = true, $bPrefixed = false)
-	{
-		$aColumns = $this->columns;
+    /**
+     * Set the columns names. Should be called by init() method.
+     *
+     * @return string
+     */
+    public function setColumns(array $aColumns)
+    {
+        $this->columns = $aColumns;
+    }
 
-		if ($bWithoutForeignKey) {
-			$aColumns = $this->removeForeignKeyColumns($aColumns);
-		}
+    /**
+     * Get the columns names.
+     *
+     * @param boolean $bWithoutForeignKey Return with or without foreign keys.
+     * @param boolean $bAliased Return or not aliased columns names.
+     * @param boolean $bPrefixed Return or not prefixed columns names.
+     * @return array
+     */
+    public function getColumns($bWithoutForeignKey = true, $bAliased = true, $bPrefixed = false)
+    {
+        $aColumns = $this->columns;
 
-		if ($bAliased) {
-			$aColumns = $this->aliaseColumns($aColumns, $this->getAlias());
-		}
+        if ($bWithoutForeignKey) {
+            $aColumns = $this->removeForeignKeyColumns($aColumns);
+        }
 
-		if ($bPrefixed) {
-			$aColumns = $this->prefixeColumns($aColumns, $this->getAlias());
-		}
+        if ($bAliased) {
+            $aColumns = $this->aliaseColumns($aColumns, $this->getAlias());
+        }
 
-		return $aColumns;
-	}
+        if ($bPrefixed) {
+            $aColumns = $this->prefixeColumns($aColumns, $this->getAlias());
+        }
 
-	public function setPrimaryKey($sPrimaryKey)
-	{
-		$this->primaryKey = $sPrimaryKey;
-	}
+        return $aColumns;
+    }
 
-	public function getPrimaryKey($bAliased = false)
-	{
-		return $bAliased
-			? $this->getAlias() . '.' . $this->primaryKey
-			: $this->primaryKey;
-	}
+    /**
+     * Set the table primary key. Should be called by init() method.
+     *
+     * @param string $sPrimaryKey
+     */
+    public function setPrimaryKey($sPrimaryKey)
+    {
+        $this->primaryKey = $sPrimaryKey;
+    }
 
-	public function setForeignKeys(array $foreignKeys)
-	{
-		$this->foreignKeys = $foreignKeys;
-	}
+    /**
+     * Get the table primary key.
+     *
+     * @param boolean $bAliased Return or not aliased primary key.
+     * @return string
+     */
+    public function getPrimaryKey($bAliased = false)
+    {
+        return $bAliased
+            ? $this->getAlias() . '.' . $this->primaryKey
+            : $this->primaryKey;
+    }
 
-	public function getForeignKeys()
-	{
-		return $this->foreignKeys;
-	}
+    /**
+     * Define wich columns are foreign keys.
+     *
+     * @param array $foreignKeys
+     */
+    public function setForeignKeys(array $foreignKeys)
+    {
+        $this->foreignKeys = $foreignKeys;
+    }
 
-	public function getOwnExternalForeignKey()
-	{
-		return $this->getTable() . '_' . $this->getPrimaryKey();
-	}
+    /**
+     * Return foreign keys.
+     *
+     * @return array
+     */
+    public function getForeignKeys()
+    {
+        return $this->foreignKeys;
+    }
 
-	public function hasForeignKey($sForeignKey)
-	{
-		return in_array($sForeignKey, $this->foreignKeys);
-	}
+    /**
+     * Return name of foreign key for other models.
+     *
+     * @return string
+     */
+    public function getOwnExternalForeignKey()
+    {
+        return $this->getTable() . '_' . $this->getPrimaryKey();
+    }
 
-	public function setSearchWordsColumn($sSearchWordsColumn)
-	{
-		$this->searchWordsColumn = $sSearchWordsColumn;
-	}
+    public function hasForeignKey($sForeignKey)
+    {
+        return in_array($sForeignKey, $this->foreignKeys);
+    }
 
-	public function getSearchWordsColumn()
-	{
-		return $this->searchWordsColumn;
-	}
+    public function setSearchWordsColumn($sSearchWordsColumn)
+    {
+        $this->searchWordsColumn = $sSearchWordsColumn;
+    }
 
-	public function setSearchIndexableColumns(array $aSearchIndexableColumns)
-	{
-		$this->searchIndexableColumns = $aSearchIndexableColumns;
-	}
+    public function getSearchWordsColumn()
+    {
+        return $this->searchWordsColumn;
+    }
 
-	public function getSearchIndexableColumns()
-	{
-		return $this->searchIndexableColumns;
-	}
+    public function setSearchIndexableColumns(array $aSearchIndexableColumns)
+    {
+        $this->searchIndexableColumns = $aSearchIndexableColumns;
+    }
 
-	public function setSearchIndex($sSearchWordsColumn, array $aSearchIndexableColumns)
-	{
-		$this->setSearchWordsColumn($sSearchWordsColumn);
-		$this->setSearchIndexableColumns($aSearchIndexableColumns);
-	}
+    public function getSearchIndexableColumns()
+    {
+        return $this->searchIndexableColumns;
+    }
 
-	public function isSearchIndexable()
-	{
-		return (!empty($this->searchWordsColumn) && !empty($this->searchIndexableColumns));
-	}
+    public function setSearchIndex($sSearchWordsColumn, array $aSearchIndexableColumns)
+    {
+        $this->setSearchWordsColumn($sSearchWordsColumn);
+        $this->setSearchIndexableColumns($aSearchIndexableColumns);
+    }
 
-	public function removeForeignKeyColumns(array $aColumns)
-	{
-		$aForeignKeys = $this->getForeignKeys();
+    public function isSearchIndexable()
+    {
+        return (!empty($this->searchWordsColumn) && !empty($this->searchIndexableColumns));
+    }
 
-		foreach ($aColumns as $k => $v)
-		{
-			if (in_array($v, $aForeignKeys)) {
-				unset($aColumns[$k]);
-			}
-		}
+    public function removeForeignKeyColumns(array $aColumns)
+    {
+        $aForeignKeys = $this->getForeignKeys();
 
-		return $aColumns;
-	}
+        foreach ($aColumns as $k => $v)
+        {
+            if (in_array($v, $aForeignKeys)) {
+                unset($aColumns[$k]);
+            }
+        }
 
-	public function aliaseColumns(array $aColumns, $sAlias)
-	{
-		array_walk($aColumns, function(&$value, $key) use ($sAlias) {
-			$value = $sAlias . '.' . $value;
-		});
+        return $aColumns;
+    }
 
-		return $aColumns;
-	}
+    public function aliaseColumns(array $aColumns, $sAlias)
+    {
+        array_walk($aColumns, function(&$value, $key) use ($sAlias) {
+            $value = $sAlias . '.' . $value;
+        });
 
-	public function prefixeColumns(array $aColumns, $sAlias)
-	{
-		array_walk($aColumns, function(&$value, $key) use ($sAlias) {
-			$value .= ' AS ' . $sAlias . '_' . str_replace($sAlias.'.', '', $value);
-		});
+        return $aColumns;
+    }
 
-		return $aColumns;
-	}
+    public function prefixeColumns(array $aColumns, $sAlias)
+    {
+        array_walk($aColumns, function(&$value, $key) use ($sAlias) {
+            $value .= ' AS ' . $sAlias . '_' . str_replace($sAlias.'.', '', $value);
+        });
 
-	protected function normalizeDataColumns(array &$data)
-	{
-		$columns = $this->getColumns(false, false, false);
+        return $aColumns;
+    }
 
-		foreach (array_keys($data) as $column)
-		{
-			if (!in_array($column, $columns)) {
-				unset($data[$column]);
-			}
-		}
-	}
+    protected function normalizeDataColumns(array &$data)
+    {
+        $columns = $this->getColumns(false, false, false);
 
-	protected function setSearchIndexableData(array &$data, $locale = 'fr')
-	{
-		if ($this->isSearchIndexable() && (!isset($data[$this->getSearchWordsColumn()]) || empty($data[$this->getSearchWordsColumn()])))
-		{
-			$words = '';
+        foreach (array_keys($data) as $column)
+        {
+            if (!in_array($column, $columns)) {
+                unset($data[$column]);
+            }
+        }
+    }
 
-			foreach ($data as $column => $values)
-			{
-				if (in_array($column, $this->getSearchIndexableColumns())) {
-					$words .= $values.' ';
-				}
-			}
+    protected function setSearchIndexableData(array &$data, $locale = 'fr')
+    {
+        if ($this->isSearchIndexable() && (!isset($data[$this->getSearchWordsColumn()]) || empty($data[$this->getSearchWordsColumn()])))
+        {
+            $words = '';
 
-			$words = Modifiers::toIndexes($words);
+            foreach ($data as $column => $values)
+            {
+                if (in_array($column, $this->getSearchIndexableColumns())) {
+                    $words .= $values.' ';
+                }
+            }
 
-			$aStopWords = $this->app['stopwords']->get($locale);
+            $words = Modifiers::toIndexes($words);
 
-			$data[$this->getSearchWordsColumn()] = implode(' ', array_diff($words, $aStopWords));
-		}
-	}
+            $aStopWords = $this->app['stopwords']->get($locale);
+
+            $data[$this->getSearchWordsColumn()] = implode(' ', array_diff($words, $aStopWords));
+        }
+    }
 }
