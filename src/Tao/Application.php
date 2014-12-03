@@ -139,7 +139,7 @@ abstract class Application extends Container
         }
 
         if (false === strpos($controller, '::')) {
-            throw new \RuntimeException(sprintf('Unable to find controller "%s".', $controller));
+            throw new \RuntimeException(sprintf('The controller "%s" does not follow Tao coding standards : "class::method".', $controller));
         }
 
         list($class, $method) = explode('::', $controller, 2);
