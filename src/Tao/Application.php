@@ -104,32 +104,29 @@ abstract class Application extends Container
 
             $this['triggers']->callTrigger('before-controller-resolver', $this);
 
-//            $response = $this['controllerResolver'];
-            $response = $this->controllerResolver();
+            $this['response'] = $this->controllerResolver();
         }
         catch (ResourceNotFoundException $e)
         {
-            $response = (new Controller($this))->serve404();
+            $this['response'] = (new Controller($this))->serve404();
         }
-        /*
         catch (\Exception $e)
         {
-            $response = new Response();
-            $response->headers->set('Content-Type', 'text/plain');
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-            $response->setContent($e->getMessage());
+            $this['response'] = new Response();
+            $this['response']->headers->set('Content-Type', 'text/plain');
+            $this['response']->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+            $this['response']->setContent($e->getMessage());
         }
-        */
 
         if ($this['x-frame-options']) {
-            $response->headers->set('x-frame-options', $this['x-frame-options']);
+            $this['response']->headers->set('x-frame-options', $this['x-frame-options']);
         }
 
-        $response->prepare($this['request']);
+        $this['response']->prepare($this['request']);
 
         $this['triggers']->callTrigger('before-send-response', $this);
 
-        $response->send();
+        $this['response']->send();
     }
 
     protected function controllerResolver()
