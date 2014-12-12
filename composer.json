@@ -14,7 +14,7 @@
 		}
 	],
 	"support" : {
-		"issues" : "https://github.com/forxer/okatea/issues"
+		"issues" : "https://github.com/Tao-php/tao/issues"
 	},
 	"minimum-stability" : "stable",
 	"require" : {
