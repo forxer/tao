@@ -1,47 +1,47 @@
 {
-	"name" : "forxer/tao",
-	"description" : "Tools in PHP for Web Development, based on famous libraries.",
-	"type" : "library",
-	"keywords" : [
-		"php"
-	],
-	"homepage" : "https://github.com/Tao-php/tao",
-	"license" : "MIT",
-	"authors" : [{
-			"name" : "Vincent Garnier",
-			"email" : "forxer@gmail.org",
-			"homepage" : "http://forx.fr"
-		}
-	],
-	"support" : {
-		"issues" : "https://github.com/Tao-php/tao/issues"
-	},
-	"minimum-stability" : "stable",
-	"require" : {
-		"filp/whoops" : "~1.1.0",
-		"jdorn/sql-formatter" : "~1.2.0",
-		"monolog/monolog" : "~1.11.0",
-		"pagerfanta/pagerfanta" : "~1.0.0",
-		"patchwork/utf8" : "~1.1.0",
-		"pimple/pimple" : "~3.0.0",
-		"raveren/kint" : "~0.9.0",
-		"symfony/config" : "~2.6.0",
-		"symfony/filesystem" : "~2.6.0",
-		"symfony/finder" : "~2.6.0",
-		"symfony/http-foundation" : "~2.6.0",
-		"symfony/routing" : "~2.6.0",
-		"symfony/templating" : "~2.6.0",
-		"symfony/yaml" : "~2.6.0",
-		"zendframework/zend-escaper" : "~2.3.0"
-	},
-	"suggest" : {
-		"doctrine/dbal" : "Allows use of the database service in your application",
-		"imagine/imagine" : "Allows use of the Imagine service in your application",
-		"symfony/translation" : "Allows use of the translantion service in your application"
-	},
-	"autoload" : {
-		"psr-4" : {
-			"Tao\\" : "src/Tao"
-		}
-	}
+    "name" : "forxer/tao",
+    "description" : "Tools in PHP for Web Development, based on famous libraries.",
+    "type" : "library",
+    "keywords" : [
+        "php"
+    ],
+    "homepage" : "https://github.com/Tao-php/tao",
+    "license" : "MIT",
+    "authors" : [{
+            "name" : "Vincent Garnier",
+            "email" : "forxer@gmail.org",
+            "homepage" : "http://forx.fr"
+        }
+    ],
+    "support" : {
+        "issues" : "https://github.com/Tao-php/tao/issues"
+    },
+    "minimum-stability" : "stable",
+    "require" : {
+        "filp/whoops" : "~1.1.0",
+        "jdorn/sql-formatter" : "~1.2.0",
+        "monolog/monolog" : "~1.11.0",
+        "pagerfanta/pagerfanta" : "~1.0.0",
+        "patchwork/utf8" : "~1.2.0",
+        "pimple/pimple" : "~3.0.0",
+        "raveren/kint" : "~0.9.0",
+        "symfony/config" : "~2.6.0",
+        "symfony/filesystem" : "~2.6.0",
+        "symfony/finder" : "~2.6.0",
+        "symfony/http-foundation" : "~2.6.0",
+        "symfony/routing" : "~2.6.0",
+        "symfony/templating" : "~2.6.0",
+        "symfony/yaml" : "~2.6.0",
+        "zendframework/zend-escaper" : "~2.3.0"
+    },
+    "suggest" : {
+        "doctrine/dbal" : "Allows use of the database service in your application",
+        "imagine/imagine" : "Allows use of the Imagine service in your application",
+        "symfony/translation" : "Allows use of the translantion service in your application"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "Tao\\" : "src/Tao"
+        }
+    }
 }
